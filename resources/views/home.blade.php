@@ -244,8 +244,13 @@
                                 description: '{{ addslashes($course->description) }}',
                                 price: {{ $course->price }},
                                 startDate: '{{ $course->start_date }}',
-                                audience: 'Ambitious professionals looking to break into {{ addslashes($user->career_interest) }}',
-                                outcomes: ['Master core {{ addslashes($user->career_interest) }} competencies', 'Build a portfolio of real-world projects', '1-on-1 Mentorship from industry experts', 'Interview preparation and resume review']
+                                audience: 'Ambitious professionals looking to break into {{ addslashes($user->career_interest) }} and seeking {{ $user->career_interest == 'management' ? 'leadership roles' : 'technical mastery' }}.',
+                                outcomes: [
+                                    'Build a production-ready {{ addslashes($user->career_interest) }} portfolio',
+                                    'Master industry-standard tools ({{ $user->career_interest == "data" ? "Python, SQL, Tableau" : ($user->career_interest == "ai" ? "PyTorch, HuggingFace" : "React, Laravel, AWS") }})',
+                                    'Career strategy session with FAANG mentors',
+                                    'Lifetime access to the {{ addslashes($user->career_interest) }} alumni network'
+                                ]
                             }"
                                  class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-xl hover:border-indigo-300 transition-all cursor-pointer group flex flex-col h-full ring-1 ring-indigo-50">
 
@@ -254,16 +259,31 @@
                                          <div class="w-12 h-12 bg-indigo-600 text-white rounded-xl flex items-center justify-center shadow-lg shadow-indigo-200">
                                              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
                                          </div>
-                                         <span class="bg-indigo-50 text-indigo-700 text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wide">98% Match</span>
+                                         <span class="bg-emerald-50 text-emerald-700 text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wide">
+                                             For: {{ $user->career_interest == 'management' ? 'Managers' : ($user->career_interest == 'student' ? 'Students' : 'Professionals') }}
+                                         </span>
                                     </div>
 
                                     <h3 class="text-lg font-bold text-slate-900 mb-2 group-hover:text-indigo-600 transition-colors line-clamp-2">{{ $course->title }}</h3>
-                                    <p class="text-sm text-slate-500 mb-4 line-clamp-3 leading-relaxed flex-1">{{ $course->description }}</p>
+                                    <p class="text-xs text-slate-500 mb-4 line-clamp-3 leading-relaxed flex-1">{{ $course->description }}</p>
+
+                                    <!-- Key Outcomes Preview -->
+                                    <div class="mb-4 space-y-1">
+                                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Outcomes:</p>
+                                        <div class="flex items-center gap-2 text-xs text-slate-600">
+                                            <svg class="w-3 h-3 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                                            <span>Production-Ready Portfolio</span>
+                                        </div>
+                                        <div class="flex items-center gap-2 text-xs text-slate-600">
+                                            <svg class="w-3 h-3 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                                            <span>Job-Ready Toolkit</span>
+                                        </div>
+                                    </div>
 
                                     <div class="flex items-center justify-between pt-4 border-t border-slate-100 mt-auto">
                                         <div class="flex flex-col">
-                                            <span class="text-[10px] uppercase font-bold text-slate-400">Start</span>
-                                            <span class="text-xs font-bold text-slate-900">{{ \Carbon\Carbon::parse($course->start_date)->format('M d') }}</span>
+                                            <span class="text-[10px] uppercase font-bold text-slate-400">Next Cohort</span>
+                                            <span class="text-xs font-bold text-slate-900">{{ \Carbon\Carbon::parse($course->start_date)->format('M d, Y') }}</span>
                                         </div>
                                         <div class="text-right">
                                             <span class="text-sm font-bold text-indigo-600 group-hover:translate-x-1 inline-block transition-transform">View Details &rarr;</span>
