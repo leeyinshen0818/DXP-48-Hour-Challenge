@@ -12,16 +12,6 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        // Fallback for no-auth mode
-        if (!$user) {
-            $user = new \App\Models\User([
-                'name' => 'Guest User',
-                'email' => 'guest@example.com',
-                'career_interest' => 'software', // Default preference
-                'emotional_state' => 'professional'
-            ]);
-        }
-
         // 1. Morph the Headline based on goals
         $headlineMap = [
             'data' => "Your Roadmap to becoming a Data Leader",

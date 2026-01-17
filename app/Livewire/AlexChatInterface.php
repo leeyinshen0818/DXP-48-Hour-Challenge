@@ -18,9 +18,6 @@ class AlexChatInterface extends Component
     public $careerInterest = ''; // 'data', 'ai', 'software'
     public $email = '';
 
-    // Assets
-    public $alexImage = 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&auto=format&fit=facearea&facepad=2.5&w=256&h=256&q=80';
-
     // For UI State
     public $showEmailInput = false;
 
@@ -74,7 +71,7 @@ class AlexChatInterface extends Component
     public function submitLead()
     {
         $this->validate([
-            'email' => 'required'
+            'email' => 'required|email'
         ]);
 
         // Calculate Score based on Status + Interest

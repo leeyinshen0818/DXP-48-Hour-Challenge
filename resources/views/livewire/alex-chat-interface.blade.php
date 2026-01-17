@@ -1,5 +1,4 @@
 <div class="w-full h-[500px] max-h-[80vh] flex flex-col justify-between bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200"
-    x-on:reveal-options="showOptions = true"
     x-data="{
         step: @entangle('step'),
         isTyping: false,
@@ -22,23 +21,23 @@
             // Msg 1: Hey
             this.isTyping = true;
             this.scrollToInContainer(this.$refs.chatContainer.lastElementChild);
-            await new Promise(r => setTimeout(r, 800));
+            await new Promise(r => setTimeout(r, 2200));
             this.isTyping = false;
             this.visibleMessages = 1;
             this.$nextTick(() => this.scrollToInContainer(this.$refs.msg1));
 
-            // Msg 2: Value Prop
+            // Msg 2: Founder / Hate Lost (Merged)
             this.isTyping = true;
             this.scrollToInContainer(this.$refs.chatContainer.lastElementChild);
-            await new Promise(r => setTimeout(r, 1500));
+            await new Promise(r => setTimeout(r, 3500));
             this.isTyping = false;
             this.visibleMessages = 2;
             this.$nextTick(() => this.scrollToInContainer(this.$refs.msg2));
 
-             // Msg 3: Call to Action
+             // Msg 3: Vibe check
             this.isTyping = true;
             this.scrollToInContainer(this.$refs.chatContainer.lastElementChild);
-            await new Promise(r => setTimeout(r, 1200));
+            await new Promise(r => setTimeout(r, 2500));
             this.isTyping = false;
             this.visibleMessages = 3;
             this.$nextTick(() => this.scrollToInContainer(this.$refs.msg3));
@@ -93,34 +92,12 @@
                 this.showOptions = true;
             }
 
-            // Watch for new steps (messages from Alex) to trigger options visibility
+            // Watch for new steps (messages from Alex)
             this.$watch('step', (val) => {
-                this.showOptions = false; // Reset initially
-
-                // Calculate total delay based on the longest message animation in the new step
-                let delay = 0;
-
-                // Step 1: student/pro (Msg at 600ms, Question at 1500ms) -> Show at ~2300ms
-                if (val == 1) delay = 2300;
-
-                // Step 2: status reply (Msg at 600ms, Question at 1500ms) -> Show at ~2300ms
-                if (val == 2) delay = 2300;
-
-                // Step 3: career reply (Msg at 600ms, Plan at 1800ms, Question at 3000ms) -> Show at ~3800ms
-                if (val == 3) delay = 3800;
-
-                // Step 4: Email capture (Msg at 1000ms, Promise at 2500ms) -> Show at ~3300ms
-                if (val == 4) delay = 3300;
-
-                if (delay > 0) {
-                     setTimeout(() => {
-                        this.showOptions = true;
-                        this.$nextTick(() => this.scrollToBottom());
-                    }, delay);
-                }
+                this.showOptions = false; // Hide options while new messages load
 
                 // If final step, redirect
-                if (val == 5) {
+                if (val === 5) {
                     setTimeout(() => {
                          window.location.href = '/home';
                     }, 5000);
@@ -159,12 +136,12 @@
                 <div class="w-2.5 h-2.5 absolute bottom-0 right-0 bg-emerald-400 rounded-full border-2 border-indigo-600 z-10"></div>
                 <!-- Avatar -->
                 <div class="w-10 h-10 rounded-full bg-white p-0.5 shadow-sm">
-                    <img src="{{ $alexImage }}" class="w-full h-full rounded-full object-cover" alt="Alex">
+                    <img src="https://ui-avatars.com/api/?name=Alex&background=e0e7ff&color=4f46e5&bold=true" class="w-full h-full rounded-full object-cover" alt="Alex">
                 </div>
             </div>
             <div>
                 <h3 class="font-bold text-white text-sm leading-tight">Alex</h3>
-                <p class="text-[11px] text-indigo-200 font-medium leading-tight tracking-wide">Your Career Guide</p>
+                <p class="text-[11px] text-indigo-200 font-medium leading-tight tracking-wide">Career Architect</p>
             </div>
         </div>
         <!-- Actions -->
@@ -186,23 +163,24 @@
         <div class="space-y-4">
             <!-- Msg 1 -->
             <div x-ref="msg1" x-show="visibleMessages >= 1" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
-                <img class="w-6 h-6 rounded-full mb-1 shadow-sm" src="{{ $alexImage }}" alt="Alex">
+                <img class="w-6 h-6 rounded-full mb-1 shadow-sm" src="https://ui-avatars.com/api/?name=Alex&background=6366f1&color=fff" alt="Alex">
                 <div class="bg-white py-2 px-3 rounded-2xl rounded-bl-none text-sm text-slate-700 shadow-sm border border-slate-100 max-w-[85%] md:max-w-[380px] leading-relaxed">
-                    Hi! I'm Alex, your personal career guide. 👋
+                    Hey! Alex here. 👋
                 </div>
             </div>
             <!-- Msg 2 -->
              <div x-ref="msg2" x-show="visibleMessages >= 2" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
-                <img class="w-6 h-6 rounded-full mb-1 shadow-sm opacity-0" src="{{ $alexImage }}" alt="Alex">
+                <img class="w-6 h-6 rounded-full mb-1 shadow-sm opacity-0" src="https://ui-avatars.com/api/?name=Alex&background=6366f1&color=fff" alt="Alex">
                 <div class="bg-white py-2 px-3 rounded-2xl rounded-bl-none text-sm text-slate-700 shadow-sm border border-slate-100 max-w-[85%] md:max-w-[380px] leading-relaxed">
-                   I know figuring out your next step can be overwhelming. I'm here to build a custom roadmap just for you.
+                   I'm the Founder/CEO. <br>
+                   I hate seeing talented people get lost here, so I want to help.
                 </div>
             </div>
             <!-- Msg 3 -->
              <div x-ref="msg3" x-show="visibleMessages >= 3" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
-                <img class="w-6 h-6 rounded-full mb-1 shadow-sm opacity-0" src="{{ $alexImage }}" alt="Alex">
-                <div class="bg-white py-2 px-3 rounded-2xl rounded-bl-none text-sm text-slate-700 shadow-sm border border-slate-100 max-w-[85%] md:max-w-[380px] leading-relaxed font-bold">
-                   Shall we start building your custom path?
+                <img class="w-6 h-6 rounded-full mb-1 shadow-sm opacity-0" src="https://ui-avatars.com/api/?name=Alex&background=6366f1&color=fff" alt="Alex">
+                <div class="bg-white py-2 px-3 rounded-2xl rounded-bl-none text-sm text-slate-700 shadow-sm border border-slate-100 max-w-[85%] md:max-w-[380px] leading-relaxed font-semibold">
+                   Quick vibe check?
                 </div>
             </div>
         </div>
@@ -212,22 +190,22 @@
             <!-- User Reply -->
             <div class="flex items-end justify-end space-x-2 animate-message">
                 <div class="bg-indigo-600 text-white py-2 px-3 rounded-2xl rounded-br-none text-sm shadow-md">
-                    Yes, build my roadmap! 🚀
+                    Go for it.
                 </div>
             </div>
 
             <!-- Alex Question -->
             <div class="space-y-2">
-                 <div x-data="{show: false}" x-init="setTimeout(() => { show=true; $nextTick(() => scrollToInContainer($el)) }, 600)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
-                    <img class="w-6 h-6 rounded-full mb-1 shadow-sm" src="{{ $alexImage }}" alt="Alex">
+                 <div x-data="{show: false}" x-init="setTimeout(() => { show=true; $nextTick(() => scrollToInContainer($el)) }, 800)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
+                    <img class="w-6 h-6 rounded-full mb-1 shadow-sm" src="https://ui-avatars.com/api/?name=Alex&background=6366f1&color=fff" alt="Alex">
                     <div class="bg-white py-2 px-3 rounded-2xl rounded-bl-none text-sm text-slate-700 shadow-sm border border-slate-100 max-w-[85%] md:max-w-[380px] leading-relaxed">
-                        Awesome! To get started, tell me a bit about where you are right now.
+                        Be honest with me.
                     </div>
                 </div>
-                 <div x-data="{show: false}" x-init="setTimeout(() => { show=true; $nextTick(() => { scrollToInContainer($el); }) }, 1500)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
-                    <img class="w-6 h-6 rounded-full mb-1 shadow-sm opacity-0" src="{{ $alexImage }}" alt="Alex">
+                 <div x-data="{show: false}" x-init="setTimeout(() => { show=true; $nextTick(() => { scrollToInContainer($el); setTimeout(() => { showOptions = true; $nextTick(() => scrollToInContainer($el)) }, 1000) }) }, 3000)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
+                    <img class="w-6 h-6 rounded-full mb-1 shadow-sm opacity-0" src="https://ui-avatars.com/api/?name=Alex&background=6366f1&color=fff" alt="Alex">
                     <div class="bg-white py-2 px-3 rounded-2xl rounded-bl-none text-sm text-slate-700 shadow-sm border border-slate-100 max-w-[85%] md:max-w-[380px] leading-relaxed">
-                        Are you currently studying, or are you already in the workforce?
+                        How’s your career feeling right now?
                     </div>
                 </div>
             </div>
@@ -238,34 +216,58 @@
             <!-- User Reply -->
             <div class="flex items-end justify-end space-x-2 animate-message">
                 <div class="bg-indigo-600 text-white py-2 px-3 rounded-2xl rounded-br-none text-sm shadow-md">
-                    @if($userStatus == 'student') 🎓 I'm currently studying.
-                    @else 💼 I'm working professionally. @endif
+                    @if($userStatus == 'stuck') 🛑 Kinda stuck. (I need a change).
+                    @else 🚀 Good, but I want MORE. @endif
                 </div>
             </div>
 
             <!-- Alex Response -->
             <div class="space-y-2">
-                @if($userStatus == 'student')
-                    <div x-data="{show: false}" x-init="setTimeout(() => { show=true; $nextTick(() => scrollToInContainer($el)) }, 600)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
-                        <img class="w-6 h-6 rounded-full mb-1 shadow-sm" src="{{ $alexImage }}" alt="Alex">
+                @if($userStatus == 'stuck')
+                    <div x-data="{show: false}" x-init="setTimeout(() => { show=true; $nextTick(() => scrollToInContainer($el)) }, 1000)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
+                        <img class="w-6 h-6 rounded-full mb-1 shadow-sm" src="https://ui-avatars.com/api/?name=Alex&background=6366f1&color=fff" alt="Alex">
                         <div class="bg-white py-2 px-3 rounded-2xl rounded-bl-none text-sm text-slate-700 shadow-sm border border-slate-100 max-w-[85%] md:max-w-[380px] leading-relaxed">
-                            That's such an exciting time! 🎓 Getting that first big break is all about the right skills.
+                            I feel that.
+                        </div>
+                    </div>
+                    <div x-data="{show: false}" x-init="setTimeout(() => { show=true; $nextTick(() => scrollToInContainer($el)) }, 2200)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
+                        <img class="w-6 h-6 rounded-full mb-1 shadow-sm opacity-0" src="https://ui-avatars.com/api/?name=Alex&background=6366f1&color=fff" alt="Alex">
+                        <div class="bg-white py-2 px-3 rounded-2xl rounded-bl-none text-sm text-slate-700 shadow-sm border border-slate-100 max-w-[85%] md:max-w-[380px] leading-relaxed">
+                            Seriously, I talk to 50 people a week who feel the exact same way.
+                        </div>
+                    </div>
+                    <div x-data="{show: false}" x-init="setTimeout(() => { show=true; $nextTick(() => scrollToInContainer($el)) }, 4200)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
+                        <img class="w-6 h-6 rounded-full mb-1 shadow-sm opacity-0" src="https://ui-avatars.com/api/?name=Alex&background=6366f1&color=fff" alt="Alex">
+                        <div class="bg-white py-2 px-3 rounded-2xl rounded-bl-none text-sm text-slate-700 shadow-sm border border-slate-100 max-w-[85%] md:max-w-[380px] leading-relaxed">
+                            It just means you've outgrown your current spot. That’s actually a good thing.
                         </div>
                     </div>
                 @else
-                    <div x-data="{show: false}" x-init="setTimeout(() => { show=true; $nextTick(() => scrollToInContainer($el)) }, 600)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
-                        <img class="w-6 h-6 rounded-full mb-1 shadow-sm" src="{{ $alexImage }}" alt="Alex">
+                    <div x-data="{show: false}" x-init="setTimeout(() => { show=true; $nextTick(() => scrollToInContainer($el)) }, 1000)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
+                        <img class="w-6 h-6 rounded-full mb-1 shadow-sm" src="https://ui-avatars.com/api/?name=Alex&background=6366f1&color=fff" alt="Alex">
                         <div class="bg-white py-2 px-3 rounded-2xl rounded-bl-none text-sm text-slate-700 shadow-sm border border-slate-100 max-w-[85%] md:max-w-[380px] leading-relaxed">
-                            Got it. ⚡ Pivoting or leveling up is a smart move. Let's make sure you don't waste time.
+                            Love that energy. ⚡
+                        </div>
+                    </div>
+                    <div x-data="{show: false}" x-init="setTimeout(() => { show=true; $nextTick(() => scrollToInContainer($el)) }, 2200)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
+                        <img class="w-6 h-6 rounded-full mb-1 shadow-sm opacity-0" src="https://ui-avatars.com/api/?name=Alex&background=6366f1&color=fff" alt="Alex">
+                        <div class="bg-white py-2 px-3 rounded-2xl rounded-bl-none text-sm text-slate-700 shadow-sm border border-slate-100 max-w-[85%] md:max-w-[380px] leading-relaxed">
+                            Never settle, right?
                         </div>
                     </div>
                 @endif
 
-                <!-- Common Question -->
-                 <div x-data="{show: false}" x-init="setTimeout(() => { show=true; $nextTick(() => { scrollToInContainer($el); }) }, 1500)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
-                    <img class="w-6 h-6 rounded-full mb-1 shadow-sm opacity-0" src="{{ $alexImage }}" alt="Alex">
+                <!-- Common Follow-up -->
+                <div x-data="{show: false}" x-init="setTimeout(() => { show=true; $nextTick(() => scrollToInContainer($el)) }, 6000)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
+                    <img class="w-6 h-6 rounded-full mb-1 shadow-sm opacity-0" src="https://ui-avatars.com/api/?name=Alex&background=6366f1&color=fff" alt="Alex">
+                    <div class="bg-white py-2 px-3 rounded-2xl rounded-bl-none text-sm text-slate-700 shadow-sm border border-slate-100 max-w-[85%] md:max-w-[380px] leading-relaxed">
+                        Let’s fast forward 6 months. ⏩
+                    </div>
+                </div>
+                 <div x-data="{show: false}" x-init="setTimeout(() => { show=true; $nextTick(() => { scrollToInContainer($el); setTimeout(() => { showOptions = true; $nextTick(() => scrollToInContainer($el)) }, 1000) }) }, 8000)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
+                    <img class="w-6 h-6 rounded-full mb-1 shadow-sm opacity-0" src="https://ui-avatars.com/api/?name=Alex&background=6366f1&color=fff" alt="Alex">
                     <div class="bg-white py-2 px-3 rounded-2xl rounded-bl-none text-sm text-slate-700 shadow-sm border border-slate-100 max-w-[85%] md:max-w-[380px] leading-relaxed font-semibold">
-                        Which path are you most interested in?
+                        If you could wake up with a new "Superpower," what is it?
                     </div>
                 </div>
             </div>
@@ -276,50 +278,73 @@
             <!-- User Reply -->
             <div class="flex items-end justify-end space-x-2 animate-message">
                 <div class="bg-indigo-600 text-white py-2 px-3 rounded-2xl rounded-br-none text-sm shadow-md">
-                    @if($careerInterest == 'data') 📊 Data Science & Analytics
-                    @elseif($careerInterest == 'ai') 🤖 AI & Product Management
-                    @else 💻 Software Engineering @endif
+                    @if($careerInterest == 'data') 📊 Predicting the future (Data).
+                    @elseif($careerInterest == 'ai') 🤖 Building AI (Tech).
+                    @else 💻 Coding Apps (Software). @endif
                 </div>
             </div>
 
             <!-- Alex Response -->
             <div class="space-y-2">
                 @if($careerInterest == 'data')
-                    <div x-data="{show: false}" x-init="setTimeout(() => { show=true; $nextTick(() => scrollToInContainer($el)) }, 600)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
-                        <img class="w-6 h-6 rounded-full mb-1 shadow-sm" src="{{ $alexImage }}" alt="Alex">
+                    <div x-data="{show: false}" x-init="setTimeout(() => { show=true; $nextTick(() => scrollToInContainer($el)) }, 1000)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
+                        <img class="w-6 h-6 rounded-full mb-1 shadow-sm" src="https://ui-avatars.com/api/?name=Alex&background=6366f1&color=fff" alt="Alex">
                         <div class="bg-white py-2 px-3 rounded-2xl rounded-bl-none text-sm text-slate-700 shadow-sm border border-slate-100 max-w-[85%] md:max-w-[380px] leading-relaxed">
-                           I love that choice! 📊 Data is impactful and demands curious minds like yours.
+                           Data. Smart. That’s where the money is. 💰
                         </div>
                     </div>
-                @elseif($careerInterest == 'ai')
-                    <div x-data="{show: false}" x-init="setTimeout(() => { show=true; $nextTick(() => scrollToInContainer($el)) }, 600)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
-                        <img class="w-6 h-6 rounded-full mb-1 shadow-sm" src="{{ $alexImage }}" alt="Alex">
+                    <div x-data="{show: false}" x-init="setTimeout(() => { show=true; $nextTick(() => scrollToInContainer($el)) }, 2500)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
+                        <img class="w-6 h-6 rounded-full mb-1 shadow-sm opacity-0" src="https://ui-avatars.com/api/?name=Alex&background=6366f1&color=fff" alt="Alex">
                         <div class="bg-white py-2 px-3 rounded-2xl rounded-bl-none text-sm text-slate-700 shadow-sm border border-slate-100 max-w-[85%] md:max-w-[380px] leading-relaxed">
-                           Incredible field! 🤖 AI is changing everything, and you're right on time to ride the wave.
+                           You don't need a PhD, you just need a map.
+                        </div>
+                    </div>
+                     <div x-data="{show: false}" x-init="setTimeout(() => { show=true; $nextTick(() => scrollToInContainer($el)) }, 4000)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
+                        <img class="w-6 h-6 rounded-full mb-1 shadow-sm opacity-0" src="https://ui-avatars.com/api/?name=Alex&background=6366f1&color=fff" alt="Alex">
+                        <div class="bg-white py-2 px-3 rounded-2xl rounded-bl-none text-sm text-slate-700 shadow-sm border border-slate-100 max-w-[85%] md:max-w-[380px] leading-relaxed">
+                           I actually wrote a <strong>"Zero-to-Hero Roadmap"</strong> for this.
+                        </div>
+                    </div>
+                    <div x-data="{show: false}" x-init="setTimeout(() => { show=true; $nextTick(() => scrollToInContainer($el)) }, 5500)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
+                        <img class="w-6 h-6 rounded-full mb-1 shadow-sm opacity-0" src="https://ui-avatars.com/api/?name=Alex&background=6366f1&color=fff" alt="Alex">
+                        <div class="bg-white py-2 px-3 rounded-2xl rounded-bl-none text-sm text-slate-700 shadow-sm border border-slate-100 max-w-[85%] md:max-w-[380px] leading-relaxed">
+                           It cuts out the boring stuff. Just the skills you need to get hired.
+                        </div>
+                    </div>
+                    <!--- Final Data Msg -->
+                    <div x-data="{show: false}" x-init="setTimeout(() => { show=true; showOptions = true; $nextTick(() => scrollToInContainer($el)) }, 7000)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
+                        <img class="w-6 h-6 rounded-full mb-1 shadow-sm opacity-0" src="https://ui-avatars.com/api/?name=Alex&background=6366f1&color=fff" alt="Alex">
+                        <div class="bg-white py-2 px-3 rounded-2xl rounded-bl-none text-sm text-slate-700 shadow-sm border border-slate-100 max-w-[85%] md:max-w-[380px] leading-relaxed font-semibold">
+                            Want me to email it to you? (It's free).
                         </div>
                     </div>
                 @else
-                    <div x-data="{show: false}" x-init="setTimeout(() => { show=true; $nextTick(() => scrollToInContainer($el)) }, 600)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
-                        <img class="w-6 h-6 rounded-full mb-1 shadow-sm" src="{{ $alexImage }}" alt="Alex">
+                    <div x-data="{show: false}" x-init="setTimeout(() => { show=true; $nextTick(() => scrollToInContainer($el)) }, 1000)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
+                        <img class="w-6 h-6 rounded-full mb-1 shadow-sm" src="https://ui-avatars.com/api/?name=Alex&background=6366f1&color=fff" alt="Alex">
                         <div class="bg-white py-2 px-3 rounded-2xl rounded-bl-none text-sm text-slate-700 shadow-sm border border-slate-100 max-w-[85%] md:max-w-[380px] leading-relaxed">
-                           Classic potential! 💻 Building software gives you the power to create anything you can imagine.
+                           Solid choice. The world runs on code now. 🌎
+                        </div>
+                    </div>
+                    <div x-data="{show: false}" x-init="setTimeout(() => { show=true; $nextTick(() => scrollToInContainer($el)) }, 2500)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
+                         <img class="w-6 h-6 rounded-full mb-1 shadow-sm opacity-0" src="https://ui-avatars.com/api/?name=Alex&background=6366f1&color=fff" alt="Alex">
+                        <div class="bg-white py-2 px-3 rounded-2xl rounded-bl-none text-sm text-slate-700 shadow-sm border border-slate-100 max-w-[85%] md:max-w-[380px] leading-relaxed">
+                           I have a <strong>"Survival Guide"</strong> for that.
+                        </div>
+                    </div>
+                     <div x-data="{show: false}" x-init="setTimeout(() => { show=true; $nextTick(() => scrollToInContainer($el)) }, 4000)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
+                        <img class="w-6 h-6 rounded-full mb-1 shadow-sm opacity-0" src="https://ui-avatars.com/api/?name=Alex&background=6366f1&color=fff" alt="Alex">
+                        <div class="bg-white py-2 px-3 rounded-2xl rounded-bl-none text-sm text-slate-700 shadow-sm border border-slate-100 max-w-[85%] md:max-w-[380px] leading-relaxed">
+                           It skips the theory and shows you what startups actually use.
+                        </div>
+                    </div>
+                    <!--- Final Software Msg -->
+                    <div x-data="{show: false}" x-init="setTimeout(() => { show=true; showOptions = true; $nextTick(() => scrollToInContainer($el)) }, 5500)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
+                        <img class="w-6 h-6 rounded-full mb-1 shadow-sm opacity-0" src="https://ui-avatars.com/api/?name=Alex&background=6366f1&color=fff" alt="Alex">
+                        <div class="bg-white py-2 px-3 rounded-2xl rounded-bl-none text-sm text-slate-700 shadow-sm border border-slate-100 max-w-[85%] md:max-w-[380px] leading-relaxed font-semibold">
+                            Want me to email it to you? (It's free).
                         </div>
                     </div>
                 @endif
-
-                 <div x-data="{show: false}" x-init="setTimeout(() => { show=true; $nextTick(() => scrollToInContainer($el)) }, 1800)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
-                    <img class="w-6 h-6 rounded-full mb-1 shadow-sm opacity-0" src="https://ui-avatars.com/api/?name=Alex&background=6366f1&color=fff" alt="Alex">
-                    <div class="bg-white py-2 px-3 rounded-2xl rounded-bl-none text-sm text-slate-700 shadow-sm border border-slate-100 max-w-[85%] md:max-w-[380px] leading-relaxed">
-                       I've put together a <strong>personalized plan</strong> for you on the next page. It covers the specific skills you need.
-                    </div>
-                </div>
-
-                 <div x-data="{show: false}" x-init="setTimeout(() => { show=true; $nextTick(() => { scrollToInContainer($el); }) }, 3000)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
-                    <img class="w-6 h-6 rounded-full mb-1 shadow-sm opacity-0" src="https://ui-avatars.com/api/?name=Alex&background=6366f1&color=fff" alt="Alex">
-                    <div class="bg-white py-2 px-3 rounded-2xl rounded-bl-none text-sm text-slate-700 shadow-sm border border-slate-100 max-w-[85%] md:max-w-[380px] leading-relaxed font-semibold">
-                        Shall I show you the way?
-                    </div>
-                </div>
             </div>
         @endif
 
@@ -328,7 +353,7 @@
             <!-- User Reply -->
             <div class="flex items-end justify-end space-x-2 animate-message">
                 <div class="bg-indigo-600 text-white py-2 px-3 rounded-2xl rounded-br-none text-sm shadow-md">
-                    Yeah, show me the way! 📧
+                    Yeah, send it! 📧
                 </div>
             </div>
 
@@ -337,13 +362,13 @@
                 <div x-data="{show: false}" x-init="setTimeout(() => { show=true; $nextTick(() => scrollToInContainer($el)) }, 1000)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
                     <img class="w-6 h-6 rounded-full mb-1 shadow-sm" src="https://ui-avatars.com/api/?name=Alex&background=6366f1&color=fff" alt="Alex">
                     <div class="bg-white py-2 px-3 rounded-2xl rounded-bl-none text-sm text-slate-700 shadow-sm border border-slate-100 max-w-[85%] md:max-w-[380px] leading-relaxed">
-                        I'd love to share this with you so you don't lose it. What's your best email?
+                        You got it. Drop your email and I’ll fire it over.
                     </div>
                 </div>
-                 <div x-data="{show: false}" x-init="setTimeout(() => { show=true; $nextTick(() => { scrollToInContainer($el); }) }, 2500)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
+                 <div x-data="{show: false}" x-init="setTimeout(() => { show=true; showOptions = true; $nextTick(() => scrollToInContainer($el)) }, 2500)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
                      <img class="w-6 h-6 rounded-full mb-1 shadow-sm opacity-0" src="https://ui-avatars.com/api/?name=Alex&background=6366f1&color=fff" alt="Alex">
                     <div class="bg-white py-2 px-3 rounded-2xl rounded-bl-none text-sm text-slate-700 shadow-sm border border-slate-100 max-w-[85%] md:max-w-[380px] leading-relaxed">
-                        (I promise to only send helpful stuff. No spam ever! 🤝).
+                        (I promise, no spam. I'm too busy for that lol).
                     </div>
                 </div>
             </div>
@@ -355,19 +380,19 @@
                 <div x-data="{show: false}" x-init="setTimeout(() => { show=true; $nextTick(() => scrollToInContainer($el)) }, 1000)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
                     <img class="w-6 h-6 rounded-full mb-1 shadow-sm" src="https://ui-avatars.com/api/?name=Alex&background=6366f1&color=fff" alt="Alex">
                     <div class="bg-white py-2 px-3 rounded-2xl rounded-bl-none text-sm text-slate-700 shadow-sm border border-slate-100 max-w-[85%] md:max-w-[380px] leading-relaxed">
-                        On its way! 🚀
+                        Sent! 📨
                     </div>
                 </div>
                  <div x-data="{show: false}" x-init="setTimeout(() => { show=true; $nextTick(() => scrollToInContainer($el)) }, 2200)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
                      <img class="w-6 h-6 rounded-full mb-1 shadow-sm opacity-0" src="https://ui-avatars.com/api/?name=Alex&background=6366f1&color=fff" alt="Alex">
                     <div class="bg-white py-2 px-3 rounded-2xl rounded-bl-none text-sm text-slate-700 shadow-sm border border-slate-100 max-w-[85%] md:max-w-[380px] leading-relaxed">
-                        It should be in your inbox momentarily.
+                        Check your inbox in a sec.
                     </div>
                 </div>
-                 <div x-data="{show: false}" x-init="setTimeout(() => { show=true; $nextTick(() => { scrollToInContainer($el); }) }, 3500)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
+                 <div x-data="{show: false}" x-init="setTimeout(() => { show=true; showOptions = true; $nextTick(() => scrollToInContainer($el)) }, 3500)" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" class="flex items-end space-x-2">
                      <img class="w-6 h-6 rounded-full mb-1 shadow-sm opacity-0" src="https://ui-avatars.com/api/?name=Alex&background=6366f1&color=fff" alt="Alex">
                     <div class="bg-white py-2 px-3 rounded-2xl rounded-bl-none text-sm text-slate-700 shadow-sm border border-slate-100 max-w-[85%] md:max-w-[380px] leading-relaxed">
-                        While that sends, I've gone ahead and personalized the dashboard just for you.
+                        While you wait... I actually customized the whole site for you.
                     </div>
                 </div>
                  <div class="flex items-end space-x-2 animate-message" style="animation-delay: 5500ms">
@@ -401,11 +426,11 @@
             <!-- Step 0: Intro Options -->
             @if($step === 0)
                 <div class="grid grid-cols-1 gap-2">
-                    <button wire:click="startChat" class="py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-bold shadow-lg shadow-indigo-200 transition-all transform hover:-translate-y-1 block w-full flex items-center justify-center gap-2">
-                        Yes, build my roadmap! 🚀
+                    <button wire:click="startChat" class="py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-bold shadow-lg shadow-indigo-200 transition-all transform hover:-translate-y-1 block w-full">
+                        Go for it.
                     </button>
                     <button class="text-xs text-center text-gray-400 hover:text-gray-600 py-1 block w-full">
-                        Just looking around.
+                        Just looking.
                     </button>
                 </div>
             @endif
@@ -413,11 +438,11 @@
             <!-- Step 1: Status Options -->
             @if($step === 1)
                 <div class="grid grid-cols-1 gap-2">
-                    <button wire:click="setStatus('student')" class="py-2 px-3 bg-white border border-gray-200 rounded-xl text-sm font-medium hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-700 transition-all text-left block w-full shadow-sm">
-                        🎓 I'm currently studying
+                    <button wire:click="setStatus('stuck')" class="py-2 px-3 bg-white border border-gray-200 rounded-xl text-sm font-medium hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-700 transition-all text-left block w-full shadow-sm">
+                        🛑 Kinda stuck. (I need a change).
                     </button>
-                    <button wire:click="setStatus('professional')" class="py-2 px-3 bg-white border border-gray-200 rounded-xl text-sm font-medium hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-700 transition-all text-left block w-full shadow-sm">
-                        💼 I'm working professionally
+                    <button wire:click="setStatus('good')" class="py-2 px-3 bg-white border border-gray-200 rounded-xl text-sm font-medium hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-700 transition-all text-left block w-full shadow-sm">
+                        🚀 Good, but I want MORE.
                     </button>
                 </div>
             @endif
@@ -426,13 +451,13 @@
             @if($step === 2)
                 <div class="grid grid-cols-1 gap-2">
                     <button wire:click="setInterest('data')" class="py-2 px-3 bg-white border border-gray-200 rounded-xl text-sm font-medium hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-700 transition-all text-left block w-full shadow-sm">
-                        📊 Data Science & Analytics
+                        📊 Predicting the future (Data).
                     </button>
                     <button wire:click="setInterest('ai')" class="py-2 px-3 bg-white border border-gray-200 rounded-xl text-sm font-medium hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-700 transition-all text-left block w-full shadow-sm">
-                         🤖 AI & Product Management
+                         🤖 Building AI (Tech).
                     </button>
                     <button wire:click="setInterest('software')" class="py-2 px-3 bg-white border border-gray-200 rounded-xl text-sm font-medium hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-700 transition-all text-left block w-full shadow-sm">
-                         💻 Software Engineering
+                         💻 Coding Apps (Software).
                     </button>
                 </div>
             @endif
@@ -441,17 +466,17 @@
             @if($step === 3)
                 <div class="grid grid-cols-1 gap-2">
                     <button wire:click="acceptOffer" class="py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-bold shadow-lg shadow-indigo-200 transition-all transform hover:-translate-y-1 block w-full">
-                        Yes, show me the way! 🚀
+                        Yeah, send it! 📧
                     </button>
                     <button wire:click="declineOffer" class="text-xs text-center text-gray-400 hover:text-gray-600 py-1 block w-full">
-                        No thanks, I'll browse on my own.
+                        Nah, I'm good.
                     </button>
                 </div>
             @endif
         </div>
 
         <!-- Persistent Fake Input Bar (Always hidden if step 4 active, because step 4 has real form) -->
-        <div class="p-3" x-show="step < 4 || (step == 4 && !showOptions)" style="{{ $step > 4 ? 'display: none;' : '' }}">
+        <div class="p-3" x-show="step < 4">
              <div class="flex items-center space-x-2 bg-slate-50 border border-slate-200 rounded-xl p-2 opacity-60"> <!-- Opacity to show disabled state -->
                  <div class="text-slate-400">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-paperclip"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
@@ -466,10 +491,10 @@
         </div>
 
         <!-- Step 4: Capture Form (This replaces everything in this block) -->
-        <div x-show="step == 4 && showOptions" class="p-3" style="{{ $step == 4 ? '' : 'display: none;' }}"
+        <div x-show="step === 4" class="p-3"
              x-transition:enter="transition ease-out duration-300 transform" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
              <form wire:submit.prevent="submitLead" class="flex gap-2">
-                <input type="text" wire:model="email" placeholder="Where should I send it? (Email)" required
+                <input type="email" wire:model="email" placeholder="name@example.com" required
                     class="w-full py-2 px-3 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none shadow-sm">
                 <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-xl hover:bg-indigo-700 font-medium transition-colors shadow-md">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>

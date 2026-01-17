@@ -6,7 +6,6 @@
     <title>DXP Challenge - Your Future Starts Here</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
@@ -23,64 +22,18 @@
 </head>
 <body class="antialiased text-slate-800 flex flex-col min-h-screen overflow-x-hidden">
 
-    <!-- Modern Header -->
-    <header x-data="{ mobileMenuOpen: false }" class="fixed w-full top-0 z-50 bg-white/70 backdrop-blur-lg border-b border-white/20 transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-
-            <!-- Logo area -->
-            <a href="/" class="flex items-center space-x-2 group">
-                <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-200 group-hover:rotate-6 transition-transform duration-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275Z"/></svg>
-                </div>
-                <span class="text-xl font-bold tracking-tight text-slate-800 group-hover:text-indigo-700 transition-colors">
-                    DXP<span class="text-indigo-600">.Academy</span>
-                </span>
-            </a>
-
-            <!-- Desktop Nav -->
-            <nav class="hidden md:flex items-center space-x-1">
-                <a href="#" class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-indigo-600 rounded-lg hover:bg-indigo-50 transition-all">Programmes</a>
-                <a href="#" class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-indigo-600 rounded-lg hover:bg-indigo-50 transition-all">Mentors</a>
-                <a href="#" class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-indigo-600 rounded-lg hover:bg-indigo-50 transition-all">Success Stories</a>
-            </nav>
-
-            <!-- CTA Actions -->
-            <div class="hidden md:flex items-center space-x-3">
-                <a href="#" class="text-sm font-semibold text-slate-500 hover:text-slate-900 px-3 py-2 transition-colors">Log in</a>
-                <a href="#" class="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold rounded-full shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5 flex items-center gap-2">
-                    Get Started
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                </a>
-            </div>
-
-            <!-- Mobile Menu Button -->
-            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-2 text-slate-600 hover:bg-slate-100 rounded-lg">
-                <svg x-show="!mobileMenuOpen" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
-                <svg x-show="mobileMenuOpen" style="display: none;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 18 12"/></svg>
-            </button>
+    <!-- Navigation -->
+    <nav class="w-full p-6 flex justify-between items-center z-50 relative shrink-0">
+        <div class="text-2xl font-bold tracking-tighter text-indigo-600">DXP Academy</div>
+        <div class="hidden md:flex space-x-6 text-sm font-semibold text-slate-500">
+            <a href="#" class="hover:text-indigo-600">Programmes</a>
+            <a href="#" class="hover:text-indigo-600">Mentors</a>
+            <a href="#" class="hover:text-indigo-600">Login</a>
         </div>
-
-        <!-- Mobile Menu -->
-        <div x-show="mobileMenuOpen" style="display: none;"
-             x-transition:enter="transition ease-out duration-200"
-             x-transition:enter-start="opacity-0 -translate-y-2"
-             x-transition:enter-end="opacity-100 translate-y-0"
-             x-transition:leave="transition ease-in duration-150"
-             x-transition:leave-start="opacity-100 translate-y-0"
-             x-transition:leave-end="opacity-0 -translate-y-2"
-             @click.away="mobileMenuOpen = false"
-             class="md:hidden absolute top-20 left-0 w-full bg-white border-b border-slate-100 shadow-xl p-4 flex flex-col space-y-4">
-            <a href="#" class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg">Programmes</a>
-            <a href="#" class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg">Mentors</a>
-            <a href="#" class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg">Success Stories</a>
-            <hr class="border-slate-100">
-            <a href="#" class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg">Log in</a>
-            <a href="#" class="px-4 py-2 text-sm font-medium bg-slate-900 text-white rounded-lg text-center">Get Started</a>
-        </div>
-    </header>
+    </nav>
 
     <!-- Main Container -->
-    <div class="relative flex-1 flex flex-col justify-center items-center w-full min-h-[90vh] pb-32 lg:pb-0 pt-24">
+    <div class="relative flex-1 flex flex-col justify-center items-center w-full min-h-[90vh] pb-32 lg:pb-0">
 
         <!-- Abstract Background Shapes & Mesh -->
         <div class="absolute inset-x-0 top-0 h-full overflow-hidden z-0">
@@ -227,39 +180,16 @@
         </div>
 
         <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
-            <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Ready to define your own path?</h2>
-            <p class="text-slate-400 mb-10 max-w-xl mx-auto">Join 1,200+ students already hired at top tech firms. Start building your future today.</p>
-
-            <div class="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 max-w-2xl mx-auto">
-                <div class="grid md:grid-cols-2 gap-8 items-center">
-                    <div class="text-left space-y-4">
-                        <h3 class="text-xl font-bold text-white">Get the full catalog</h3>
-                        <p class="text-sm text-slate-400">Receive a detailed breakdown of all career paths, outcomes, and salary expectations.</p>
-
-                        <!-- Simple Lead Capture Form -->
-                        <form action="#" method="POST" class="space-y-3" onsubmit="event.preventDefault(); alert('Thanks! The syllabus is on its way.');">
-                            <input type="email" placeholder="Enter your work email" class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white/20 transition-all">
-                            <button type="submit" class="w-full px-4 py-3 bg-indigo-600 text-white rounded-lg font-bold text-sm hover:bg-indigo-500 transition-colors shadow-lg shadow-indigo-900/50">
-                                Download Syllabus &rarr;
-                            </button>
-                        </form>
-                    </div>
-
-                    <div class="relative">
-                         <div class="absolute inset-0 bg-indigo-500/20 blur-2xl rounded-full"></div>
-                         <div class="relative bg-slate-900 border border-slate-700 rounded-xl p-6 text-center">
-                            <div class="w-12 h-12 bg-indigo-500/20 rounded-full flex items-center justify-center mx-auto mb-3 text-indigo-400">
-                                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
-                            </div>
-                            <h4 class="font-bold text-white mb-2">Unsure where to start?</h4>
-                            <p class="text-xs text-slate-400 mb-4">Chat with Alex, our AI Career Architect, to find your perfect fit in 2 minutes.</p>
-                             <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="w-full px-4 py-2 bg-white text-slate-900 rounded-lg font-bold text-sm hover:bg-slate-50 transition-colors">
-                                Start AI Assessment
-                            </button>
-                         </div>
-                    </div>
-                </div>
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-8">Ready to define your own path?</h2>
+            <div class="flex flex-col md:flex-row justify-center items-center gap-4">
+                 <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="px-8 py-4 bg-white text-indigo-900 rounded-xl font-bold hover:bg-indigo-50 transition-colors shadow-lg hover:shadow-white/20 transform hover:-translate-y-1">
+                    Talk to Alex Now
+                </button>
+                 <a href="#" class="px-8 py-4 bg-transparent border border-white/20 text-white rounded-xl font-medium hover:bg-white/10 transition-colors">
+                    View Course Catalog
+                </a>
             </div>
+            <p class="mt-8 text-slate-400 text-sm">Join 1,200+ students already hired at top tech firms.</p>
         </div>
     </section>
 
