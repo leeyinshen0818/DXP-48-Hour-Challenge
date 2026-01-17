@@ -12,8 +12,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // specific admin user
+        \App\Models\User::factory()->create([
+            'name' => 'Admin',
+            'email' => 'admin@admin.com',
+            'password' => bcrypt('admin123'),
+        ]);
+
         $this->call([
             ProgrammeSeeder::class,
+            StrategicInsightSeeder::class,
         ]);
     }
 }

@@ -14,7 +14,8 @@ class AlexChatInterface extends Component
     public $step = 0;
 
     // User Choices
-    public $userStatus = ''; // 'student' or 'professional'
+    public $careerStage = ''; // 'student', 'professional'
+    public $userStatus = ''; // 'stuck' or 'good' (Feeling)
     public $careerInterest = ''; // 'data', 'ai', 'software'
     public $email = '';
 
@@ -34,26 +35,34 @@ class AlexChatInterface extends Component
         $this->logInteraction('intro', 'started');
     }
 
-    // Node B -> C
+    // Node B -> C (New)
+    public function setCareerStage($stage)
+    {
+        $this->careerStage = $stage;
+        $this->step = 2; // Move to next step
+        $this->logInteraction('career_stage', $stage);
+    }
+
+    // Node C -> D  (Old setStatus)
     public function setStatus($status)
     {
         $this->userStatus = $status;
-        $this->step = 2;
+        $this->step = 3;
         $this->logInteraction('status_check', $status);
     }
 
-    // Node C -> D
+    // Node D -> E
     public function setInterest($interest)
     {
         $this->careerInterest = $interest;
-        $this->step = 3;
+        $this->step = 4;
         $this->logInteraction('career_interest', $interest);
     }
 
-    // Node D -> E
+    // Node E -> F
     public function acceptOffer()
     {
-        $this->step = 4;
+        $this->step = 5;
         $this->showEmailInput = true;
         $this->logInteraction('offer_accepted', 'yes');
     }
@@ -67,7 +76,7 @@ class AlexChatInterface extends Component
         $this->logInteraction('offer_declined', 'no');
     }
 
-    // Node E -> F
+    // Node F -> G
     public function submitLead()
     {
         $this->validate([
@@ -88,14 +97,15 @@ class AlexChatInterface extends Component
                 'password' => Hash::make(Str::random(16)),
                 'emotional_state' => $this->userStatus, // Reusing this column
                 'career_interest' => $this->careerInterest,
-                'lead_score' => $score
+                'lead_score' => $score,
+                'is_guest' => true
             ]
         );
 
         Auth::login($user);
 
-        // Node F: The Close & Redirect
-        $this->step = 5;
+        // Close & Redirect
+        $this->step = 6;
 
         // Redirect after a short delay (handled in frontend or here)
         // We'll use a browser event or just standard redirect

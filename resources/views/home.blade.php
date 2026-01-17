@@ -140,11 +140,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                        <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
+                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse gap-2">
+                        <button @click="if(isGuest) { modalOpen = false; registrationModalOpen = true; } else { window.location.href='/programs/software-engineering'; }" type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none sm:w-auto sm:text-sm">
                             Enroll Now
                         </button>
-                        <button @click="modalOpen = false" type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                        <a href="{{ route('programs.show') }}" class="w-full inline-flex justify-center rounded-md border border-indigo-200 shadow-sm px-4 py-2 bg-indigo-50 text-base font-medium text-indigo-700 hover:bg-indigo-100 focus:outline-none sm:w-auto sm:text-sm">
+                            View Full Syllabus
+                        </a>
+                        <button @click="modalOpen = false" type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:w-auto sm:text-sm">
                             Close
                         </button>
                     </div>
@@ -216,6 +219,19 @@
                         <button @click="activeFilter = 'beginner'" :class="activeFilter === 'beginner' ? 'bg-slate-900 text-white' : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'" class="px-4 py-2 text-xs font-bold rounded-full whitespace-nowrap transition-colors">Beginner</button>
                         <button @click="activeFilter = 'intermediate'" :class="activeFilter === 'intermediate' ? 'bg-slate-900 text-white' : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'" class="px-4 py-2 text-xs font-bold rounded-full whitespace-nowrap transition-colors">Intermediate</button>
                         <button @click="activeFilter = 'certification'" :class="activeFilter === 'certification' ? 'bg-slate-900 text-white' : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'" class="px-4 py-2 text-xs font-bold rounded-full whitespace-nowrap transition-colors">Certification</button>
+
+                        <!-- NEW Secure Spot Button -->
+                         <div class="ml-auto"> <!-- Push to the right -->
+                            <button @click="if(isGuest) { registrationModalOpen = true; } else { window.location.href='/programs/software-engineering'; }"
+                                    class="relative px-6 py-2.5 bg-gradient-to-r from-amber-500 to-orange-600 text-white text-xs font-bold rounded-full shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 transition-all transform hover:-translate-y-0.5 flex items-center gap-2 overflow-hidden group">
+                                <span class="absolute top-0 right-0 -mt-1 -mr-1 flex h-3 w-3">
+                                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                                  <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                                </span>
+                                <span class="relative z-10">SECURE YOUR SPOT</span>
+                                <svg class="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Core Recommendations -->
@@ -322,6 +338,7 @@
                         <button @click="activeInsightFilter = 'all'" :class="activeInsightFilter === 'all' ? 'bg-slate-900 text-white' : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'" class="px-4 py-2 text-xs font-bold rounded-full whitespace-nowrap transition-colors">All Insights</button>
                         <button @click="activeInsightFilter = 'market_data'" :class="activeInsightFilter === 'market_data' ? 'bg-slate-900 text-white' : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'" class="px-4 py-2 text-xs font-bold rounded-full whitespace-nowrap transition-colors">Market Data</button>
                         <button @click="activeInsightFilter = 'case_studies'" :class="activeInsightFilter === 'case_studies' ? 'bg-slate-900 text-white' : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'" class="px-4 py-2 text-xs font-bold rounded-full whitespace-nowrap transition-colors">Case Studies</button>
+                        <button @click="activeInsightFilter = 'latest'" :class="activeInsightFilter === 'latest' ? 'bg-slate-900 text-white' : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'" class="px-4 py-2 text-xs font-bold rounded-full whitespace-nowrap transition-colors">Latest Trends</button>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -516,17 +533,96 @@
 
             </div>
         </div>
+
+    <div x-show="registrationModalOpen"
+         style="display: none;"
+         class="fixed inset-0 z-50 overflow-y-auto"
+         aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div x-show="registrationModalOpen" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="fixed inset-0 bg-slate-900 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md w-full">
+
+                <div class="bg-white px-8 pt-8 pb-6 text-center">
+                    <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-indigo-100 mb-4">
+                        <svg class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-black text-slate-900">Create Account</h3>
+                    <p class="text-slate-500 text-sm mt-2">Join 10,000+ professionals boosting their careers.</p>
+                </div>
+
+                <div class="px-8 pb-8">
+                    <!-- Social Login -->
+                    <div class="space-y-3">
+                        <button type="button" class="w-full flex items-center justify-center gap-3 bg-white border border-slate-200 rounded-xl px-4 py-3 text-slate-700 font-bold text-sm hover:bg-slate-50 transition-colors">
+                            <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="Google">
+                            Continue with Google
+                        </button>
+                        <button type="button" class="w-full flex items-center justify-center gap-3 bg-white border border-slate-200 rounded-xl px-4 py-3 text-slate-700 font-bold text-sm hover:bg-slate-50 transition-colors">
+                            <svg class="w-5 h-5 text-[#0077b5]" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                            Continue with LinkedIn
+                        </button>
+                    </div>
+
+                    <div class="relative my-6">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-slate-200"></div>
+                        </div>
+                        <div class="relative flex justify-center text-sm">
+                            <span class="px-2 bg-white text-slate-400 font-medium">Or continue with email</span>
+                        </div>
+                    </div>
+
+                    <form action="{{ route('register.complete') }}" method="POST" class="space-y-4">
+                        @csrf
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">Full Name</label>
+                            <input type="text" name="name" value="{{ Auth::user()->name }}" class="w-full px-4 py-3 bg-slate-50 border-transparent focus:border-indigo-500 focus:bg-white focus:ring-0 rounded-xl text-sm font-semibold text-slate-900 transition-all placeholder-slate-400">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">Email Address</label>
+                            <input type="email" name="email" value="{{ Auth::user()->email }}" class="w-full px-4 py-3 bg-slate-50 border-transparent focus:border-indigo-500 focus:bg-white focus:ring-0 rounded-xl text-sm font-semibold text-slate-900 transition-all placeholder-slate-400">
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">Password</label>
+                                <input type="password" name="password" required class="w-full px-4 py-3 bg-slate-50 border-transparent focus:border-indigo-500 focus:bg-white focus:ring-0 rounded-xl text-sm font-semibold text-slate-900 transition-all placeholder-slate-400">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">Confirm</label>
+                                <input type="password" name="password_confirmation" required class="w-full px-4 py-3 bg-slate-50 border-transparent focus:border-indigo-500 focus:bg-white focus:ring-0 rounded-xl text-sm font-semibold text-slate-900 transition-all placeholder-slate-400">
+                            </div>
+                        </div>
+
+                        <div class="pt-2">
+                             <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-3.5 rounded-xl hover:bg-indigo-700 hover:shadow-lg hover:shadow-indigo-500/30 transition-all transform hover:-translate-y-0.5">
+                                Complete Registration
+                            </button>
+                        </div>
+
+                        <div class="text-center mt-4">
+                             <button type="button" @click="registrationModalOpen = false" class="text-slate-400 text-xs font-bold hover:text-slate-600 transition-colors">
+                                I'll do this later
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
         </div>
     </div>
 
-
     <script>
         function dashboardData() {
             return {
+                isGuest: {{ Auth::user()->is_guest ? 'true' : 'false' }},
                 activeTab: 'program',
                 modalOpen: false,
+                registrationModalOpen: false,
                 selectedCourse: {
                     title: '',
                     description: '',
@@ -537,153 +633,8 @@
                 },
                 activeFilter: 'all',
                 activeInsightFilter: 'all',
-                insightResources: [
-                    {
-                        title: 'Future of Work Report 2024',
-                        type: 'PDF Report',
-                        category: 'market_data',
-                        readTime: '15 min read',
-                        iconClass: 'bg-orange-50 text-orange-600',
-                        downloadUrl: '#download-report-2024'
-                    },
-                    {
-                        title: 'Tech Salary Trends Q3',
-                        type: 'Market Data',
-                        category: 'market_data',
-                        readTime: '5 min read',
-                        iconClass: 'bg-emerald-50 text-emerald-600',
-                        downloadUrl: '#download-salary-trends'
-                    },
-                    {
-                        title: 'Case Study: AI in FinTech',
-                        type: 'Case Study',
-                        category: 'case_studies',
-                        readTime: '20 min read',
-                        iconClass: 'bg-blue-50 text-blue-600',
-                        downloadUrl: '#read-case-study'
-                    },
-                    {
-                        title: 'Leadership in Remote Teams',
-                        type: 'Article',
-                        category: 'latest',
-                        readTime: '8 min read',
-                        iconClass: 'bg-purple-50 text-purple-600',
-                        downloadUrl: 'https://hbr.org/'
-                    },
-                    {
-                        title: 'Global Skills Index 2025',
-                        type: 'PDF Report',
-                        category: 'market_data',
-                        readTime: '45 min read',
-                        iconClass: 'bg-orange-50 text-orange-600',
-                        downloadUrl: '#download-gsi-2025'
-                    },
-                    {
-                        title: 'Startup Growth Metrics',
-                        type: 'Cheatsheet',
-                        category: 'latest',
-                        readTime: '2 min read',
-                        iconClass: 'bg-pink-50 text-pink-600',
-                        downloadUrl: '#download-cheatsheet'
-                    },
-                    {
-                        title: 'Design Systems Handbook',
-                        type: 'eBook',
-                        category: 'latest',
-                        readTime: '3 hrs read',
-                        iconClass: 'bg-indigo-50 text-indigo-600',
-                        downloadUrl: '#download-handbook'
-                    },
-                    {
-                        title: 'AWS Architecture Whitepaper',
-                        type: 'Whitepaper',
-                        category: 'case_studies',
-                        readTime: '60 min read',
-                        iconClass: 'bg-slate-100 text-slate-600',
-                        downloadUrl: '#download-whitepaper'
-                    },
-                    {
-                        title: 'Product Roadmap Template',
-                        type: 'Template',
-                        category: 'latest',
-                        readTime: 'For Notion/Excel',
-                        iconClass: 'bg-green-50 text-green-600',
-                        downloadUrl: '#download-template'
-                    },
-                    {
-                        title: 'Cybersecurity Threat Landscape',
-                        type: 'Briefing',
-                        category: 'market_data',
-                        readTime: '10 min read',
-                        iconClass: 'bg-red-50 text-red-600',
-                        downloadUrl: '#download-briefing'
-                    }
-                ],
-                libraryPrograms: [
-                    {
-                        title: 'Advanced Data Analytics',
-                        description: 'Master Python & SQL for big data.',
-                        duration: '8 Weeks',
-                        level: 'intermediate',
-                        icon: 'M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z'
-                    },
-                    {
-                        title: 'UX Design Fundamentals',
-                        description: 'Build user-centric products.',
-                        duration: '6 Weeks',
-                        level: 'beginner',
-                        icon: 'M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z'
-                    },
-                    {
-                        title: 'Cloud Computing (AWS)',
-                        description: 'Deploy scalable applications.',
-                        duration: '10 Weeks',
-                        level: 'certification',
-                        icon: 'M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z'
-                    },
-                    {
-                        title: 'Agile Project Management',
-                        description: 'Lead high-performance teams.',
-                        duration: '4 Weeks',
-                        level: 'intermediate',
-                        icon: 'M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z'
-                    },
-                    {
-                        title: 'AI Product Management',
-                        description: 'Launch AI-driven products.',
-                        duration: '8 Weeks',
-                        level: 'intermediate',
-                        icon: 'M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.131A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.2-2.858.575-4.181m13.256 11.332a.999.999 0 01-1.405-.296l-.924-1.455a.999.999 0 01.378-1.376c.456-.252.887-.551 1.285-.892a.999.999 0 00.203-1.39l-.924-1.455a.999.999 0 01-.442 1.442l-1.649.607a.999.999 0 01-1.31-.549l-.607-1.649a.999.999 0 01.137-1.016l1.455-.924z'
-                    },
-                    {
-                        title: 'Cybersecurity Basics',
-                        description: 'Protect enterprise assets.',
-                        duration: '6 Weeks',
-                        level: 'beginner',
-                        icon: 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z'
-                    },
-                    {
-                        title: 'Digital Marketing Mastery',
-                        description: 'SEO, SEM & Social Strategy.',
-                        duration: '12 Weeks',
-                        level: 'beginner',
-                        icon: 'M13 10V3L4 14h7v7l9-11h-7z'
-                    },
-                    {
-                        title: 'Full Stack Development',
-                        description: 'React, Node.js & Databases.',
-                        duration: '24 Weeks',
-                        level: 'certification',
-                        icon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4'
-                    },
-                    {
-                        title: 'Financial Modeling',
-                        description: 'Advanced Excel & Valuation.',
-                        duration: '5 Weeks',
-                        level: 'intermediate',
-                        icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'
-                    }
-                ]
+                insightResources: @json($dbInsights),
+                libraryPrograms: @json($dbLibraryPrograms)
             }
         }
     </script>

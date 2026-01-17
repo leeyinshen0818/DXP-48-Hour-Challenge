@@ -19,13 +19,6 @@
                 Send News / Email
             </button>
             <button
-                @click="mode = 'content'"
-                :class="mode === 'content' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-600 hover:text-slate-800'"
-                class="px-6 py-2.5 rounded-lg text-sm font-bold transition-all duration-200 flex items-center gap-2">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                Publish AI Content
-            </button>
-            <button
                 @click="mode = 'program'"
                 :class="mode === 'program' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-600 hover:text-slate-800'"
                 class="px-6 py-2.5 rounded-lg text-sm font-bold transition-all duration-200 flex items-center gap-2">
@@ -37,7 +30,7 @@
                 :class="mode === 'general' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-600 hover:text-slate-800'"
                 class="px-6 py-2.5 rounded-lg text-sm font-bold transition-all duration-200 flex items-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
-                General Content
+                Strategic Insights (AI)
             </button>
         </div>
 
@@ -101,63 +94,6 @@
                 </div>
 
                 <!-- Content Context -->
-                <div x-show="mode === 'content'" x-cloak x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100">
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                        <h3 class="font-bold text-lg text-slate-800 mb-4 text-emerald-600">Source Material</h3>
-                        <p class="text-sm text-slate-500 mb-4">Provide a source for AI to summarize and format.</p>
-
-                        <div class="space-y-4">
-                            <!-- Type & Schedule Configuration -->
-                            <div class="grid grid-cols-1 gap-4 bg-slate-50 p-3 rounded-lg border border-slate-100 mb-2">
-                                <div>
-                                    <label class="block text-xs font-semibold text-slate-500 mb-1 uppercase tracking-wider">Content Type</label>
-                                    <select x-model="content.type" class="w-full border-slate-200 rounded-md shadow-sm focus:border-emerald-500 focus:ring-emerald-500 text-sm py-1.5">
-                                        <option value="Article">Article / Blog</option>
-                                        <option value="News">News Announcement</option>
-                                        <option value="Tutorial">Tutorial / Guide</option>
-                                        <option value="Video">Video Summary</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-semibold text-slate-500 mb-1 uppercase tracking-wider">Schedule Publish</label>
-                                    <input type="datetime-local" x-model="content.schedule" class="w-full border-slate-200 rounded-md shadow-sm focus:border-emerald-500 focus:ring-emerald-500 text-sm py-1.5">
-                                </div>
-                            </div>
-
-                            <div>
-                                <label class="text-sm font-medium text-slate-700 mb-2 block">Source Type</label>
-                                <div class="flex bg-slate-100 p-1 rounded-lg">
-                                    <button @click="content.sourceType = 'link'" :class="content.sourceType === 'link' ? 'bg-white shadow text-slate-800' : 'text-slate-500'" class="flex-1 py-1 text-xs font-semibold rounded text-center transition-all">Link / URL</button>
-                                    <button @click="content.sourceType = 'file'" :class="content.sourceType === 'file' ? 'bg-white shadow text-slate-800' : 'text-slate-500'" class="flex-1 py-1 text-xs font-semibold rounded text-center transition-all">Upload PDF</button>
-                                </div>
-                            </div>
-
-                            <div x-show="content.sourceType === 'link'">
-                                <label class="block text-sm font-medium text-slate-700 mb-2">Article URL</label>
-                                <input type="text" x-model="content.sourceValue" placeholder="https://example.com/article" class="w-full border-slate-300 rounded-lg shadow-sm focus:border-emerald-500 focus:ring-emerald-500 text-sm">
-                            </div>
-
-                            <div x-show="content.sourceType === 'file'">
-                                <label class="block text-sm font-medium text-slate-700 mb-2">Upload Document</label>
-                                <div class="border-2 border-dashed border-slate-300 rounded-lg p-4 text-center cursor-pointer hover:border-emerald-500 transition-colors bg-slate-50">
-                                    <svg class="w-8 h-8 text-slate-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-                                    <span class="text-xs text-slate-500 block">Click to upload PDF</span>
-                                    <span class="text-[10px] text-slate-400 block mt-1">(Mock Upload)</span>
-                                </div>
-                                <!-- Pseudo-binding for the mock -->
-                                <input type="hidden" x-model="content.sourceValue" value="Future_of_AI_Report_2024.pdf">
-                            </div>
-
-                            <div class="pt-2">
-                                <button @click="generateContent()" class="w-full px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg text-sm font-bold shadow-md hover:shadow-lg hover:from-emerald-600 hover:to-teal-700 transition-all flex items-center justify-center gap-2">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
-                                    Process & Compose
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Program Context -->
                 <div x-show="mode === 'program'" x-cloak x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100">
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
@@ -180,59 +116,52 @@
                                 <input type="text" x-model="program.facilitator" class="w-full border-slate-300 rounded-lg shadow-sm focus:border-purple-500 focus:ring-purple-500 text-sm" placeholder="e.g. Dr. Jane Smith">
                             </div>
 
-                            <div class="grid grid-cols-2 gap-3">
-                                <div>
-                                    <label class="block text-xs font-semibold text-slate-500 mb-1 uppercase">Capacity</label>
-                                    <input type="number" x-model="program.capacity" class="w-full border-slate-300 rounded-lg shadow-sm focus:border-purple-500 focus:ring-purple-500 text-sm" placeholder="Unlimited">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-semibold text-slate-500 mb-1 uppercase">Points</label>
-                                    <input type="number" x-model="program.points" class="w-full border-slate-300 rounded-lg shadow-sm focus:border-purple-500 focus:ring-purple-500 text-sm" value="50">
-                                </div>
+                            <div class="bg-purple-50 p-4 rounded-xl border border-purple-100 mt-4">
+                                <h4 class="text-sm font-bold text-purple-800 mb-2 flex items-center gap-2">
+                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                    AI Assistant
+                                </h4>
+                                <p class="text-xs text-purple-600 mb-3">Generate a course description based on title.</p>
+                                <button @click="generateProgramAI()" class="w-full py-2 bg-white border border-purple-200 text-purple-700 rounded-lg text-xs font-bold hover:bg-purple-100 transition-colors">
+                                    Generate Description
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- General Content Context -->
+                <!-- General Content Context with AI -->
                 <div x-show="mode === 'general'" x-cloak x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100">
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                        <h3 class="font-bold text-lg text-slate-800 mb-4 text-blue-600">Standard Content</h3>
-                        <p class="text-xs text-slate-400 mb-4">Publish notices, policies, or general articles manually.</p>
+                        <h3 class="font-bold text-lg text-slate-800 mb-4 text-blue-600">AI Content Generator</h3>
+                        <p class="text-xs text-slate-400 mb-4">Generate insights from external sources.</p>
 
                         <div class="space-y-4">
                             <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-2">Category</label>
-                                <select x-model="general.category" class="w-full border-slate-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
-                                    <option value="Notice">Official Notice</option>
-                                    <option value="Policy">Policy Update</option>
-                                    <option value="Blog">Community Blog</option>
-                                    <option value="Resource">Downloadable Resource</option>
-                                </select>
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-2">Visibility</label>
-                                <div class="flex flex-col space-y-2">
-                                    <label class="inline-flex items-center">
-                                        <input type="radio" x-model="general.visibility" value="public" class="text-blue-600 focus:ring-blue-500 border-slate-300">
-                                        <span class="ml-2 text-sm text-slate-600">Public (Everyone)</span>
-                                    </label>
-                                    <label class="inline-flex items-center">
-                                        <input type="radio" x-model="general.visibility" value="internal" class="text-blue-600 focus:ring-blue-500 border-slate-300">
-                                        <span class="ml-2 text-sm text-slate-600">Internal (Logged In)</span>
-                                    </label>
-                                    <label class="inline-flex items-center">
-                                        <input type="radio" x-model="general.visibility" value="staff" class="text-blue-600 focus:ring-blue-500 border-slate-300">
-                                        <span class="ml-2 text-sm text-slate-600">Staff Only</span>
-                                    </label>
+                                <label class="text-sm font-medium text-slate-700 mb-2 block">Source Type</label>
+                                <div class="flex bg-slate-100 p-1 rounded-lg">
+                                    <button @click="content.sourceType = 'link'" :class="content.sourceType === 'link' ? 'bg-white shadow text-slate-800' : 'text-slate-500'" class="flex-1 py-1 text-xs font-semibold rounded text-center transition-all">Link / URL</button>
+                                    <button @click="content.sourceType = 'file'" :class="content.sourceType === 'file' ? 'bg-white shadow text-slate-800' : 'text-slate-500'" class="flex-1 py-1 text-xs font-semibold rounded text-center transition-all">Upload PDF</button>
                                 </div>
                             </div>
 
-                            <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-2">Tags</label>
-                                <input type="text" x-model="general.tags" class="w-full border-slate-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm" placeholder="e.g. #important, #q1">
+                            <div x-show="content.sourceType === 'link'">
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Article URL</label>
+                                <input type="text" x-model="content.sourceValue" placeholder="https://example.com/article" class="w-full border-slate-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
                             </div>
+
+                            <div x-show="content.sourceType === 'file'">
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Upload Document</label>
+                                <div class="border-2 border-dashed border-slate-300 rounded-lg p-3 text-center cursor-pointer hover:border-blue-500 transition-colors bg-slate-50">
+                                    <span class="text-xs text-slate-500 block">Click to upload PDF</span>
+                                </div>
+                                <input type="hidden" x-model="content.sourceValue" value="Report.pdf">
+                            </div>
+
+                            <button @click="generateContentAI()" class="w-full px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg text-sm font-bold shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                Generate Insight
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -287,88 +216,23 @@
                     </div>
                 </div>
 
-                <!-- EDITOR for CONTENT -->
-                <div x-show="mode === 'content'" x-cloak x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
-                    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 relative">
-                         <!-- Loading Overlay -->
-                         <div x-show="loading" class="absolute inset-0 bg-white/80 z-20 flex items-center justify-center rounded-2xl backdrop-blur-sm">
-                            <div class="flex flex-col items-center">
-                               <svg class="animate-spin h-10 w-10 text-emerald-600 mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                   <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                               </svg>
-                               <span class="text-emerald-900 font-semibold animate-pulse">Analyzing & Drafting...</span>
-                           </div>
-                       </div>
 
-                        <div class="mb-6 border-b border-slate-100 pb-4 flex justify-between items-start">
-                            <div class="w-3/4">
-                                <h3 class="font-bold text-lg text-slate-800">Content Editor</h3>
-                                <div class="flex items-center gap-2 mt-1 flex-wrap">
-                                    <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 text-xs font-bold uppercase" x-text="content.type"></span>
-                                    <span x-show="content.schedule" class="text-xs text-slate-500 flex items-center gap-1">
-                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                        Publishes: <span x-text="new Date(content.schedule).toLocaleString()"></span>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="text-right w-1/4" x-show="content.expectedViews > 0">
-                                <span class="block text-xl md:text-2xl font-bold text-slate-900" x-text="content.expectedViews.toLocaleString()"></span>
-                                <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wide">Est. Views</span>
-                            </div>
-                        </div>
-
-                        <div class="space-y-6">
-                            <!-- Title -->
-                            <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-2">Title / Headline</label>
-                                <input type="text" x-model="content.title" class="w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-lg font-semibold">
-                            </div>
-
-                            <!-- Summary -->
-                             <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-2">Executive Summary</label>
-                                <div class="bg-indigo-50/50 rounded-lg p-4 border border-indigo-100 text-sm text-slate-700 prose-sm" x-html="content.summary"></div>
-                            </div>
-
-                            <!-- Content Area -->
-                            <div>
-                                <div class="flex items-center justify-between mb-2">
-                                    <label class="block text-sm font-medium text-slate-700">Content Body</label>
-                                    <div class="flex space-x-2 bg-slate-100 p-1 rounded-lg">
-                                        <button @click="content.previewMode = true" :class="content.previewMode ? 'bg-white shadow text-slate-900' : 'text-slate-500'" class="px-3 py-1 text-xs font-medium rounded transition-all">Preview</button>
-                                        <button @click="content.previewMode = false" :class="!content.previewMode ? 'bg-white shadow text-slate-900' : 'text-slate-500'" class="px-3 py-1 text-xs font-medium rounded transition-all">Edit HTML</button>
-                                    </div>
-                                </div>
-
-                                <!-- Visual Preview -->
-                                <div x-show="content.previewMode" class="w-full p-6 border border-slate-200 rounded-lg bg-white prose max-w-none max-h-[500px] overflow-y-auto">
-                                    <template x-if="content.body">
-                                        <div x-html="content.body"></div>
-                                    </template>
-                                    <template x-if="!content.body">
-                                        <div class="text-slate-400 italic text-center py-10">Generated content will be previewed here.</div>
-                                    </template>
-                                </div>
-
-                                <!-- Raw Editor -->
-                                <textarea x-show="!content.previewMode" x-model="content.body" rows="15" class="w-full p-4 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 font-mono text-sm" placeholder="HTML content..."></textarea>
-                            </div>
-
-                            <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
-                                <button class="px-4 py-2 bg-white border border-slate-300 text-slate-700 rounded-lg font-medium hover:bg-slate-50">Save Draft</button>
-                                <button @click="publishContentAction()" class="px-6 py-2 bg-emerald-600 text-white rounded-lg font-medium hover:bg-emerald-700 flex items-center gap-2 shadow-lg shadow-emerald-500/20 active:scale-95 transition-all">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                    <span x-text="content.schedule ? 'Schedule Publish' : 'Publish Now'"></span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- EDITOR for PROGRAMS -->
                 <div x-show="mode === 'program'" x-cloak x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
-                    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 relative">
+
+                         <!-- Loading Overlay -->
+                         <div x-show="loading" class="absolute inset-0 bg-white/80 z-20 flex items-center justify-center rounded-2xl backdrop-blur-sm">
+                            <div class="flex flex-col items-center">
+                               <svg class="animate-spin h-10 w-10 text-purple-600 mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                   <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                               </svg>
+                               <span class="text-purple-900 font-semibold animate-pulse">Designing Program...</span>
+                           </div>
+                       </div>
+
                         <div class="mb-6 border-b border-slate-100 pb-4 flex justify-between items-center">
                             <div>
                                 <h3 class="font-bold text-lg text-slate-800">Program Manager</h3>
@@ -383,6 +247,25 @@
                             <div>
                                 <label class="block text-sm font-medium text-slate-700 mb-2">Program Title</label>
                                 <input type="text" x-model="program.title" class="w-full border-slate-300 rounded-lg shadow-sm focus:border-purple-500 focus:ring-purple-500 text-lg font-semibold" placeholder="e.g. Advanced AI Workshops 2024">
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-2">Category Tag</label>
+                                    <select x-model="program.category_tag" class="w-full border-slate-300 rounded-lg shadow-sm focus:border-purple-500 focus:ring-purple-500">
+                                        <option value="">Select Category</option>
+                                        <option value="data">Data</option>
+                                        <option value="ai">AI</option>
+                                        <option value="software">Software</option>
+                                        <option value="management">Management</option>
+                                        <option value="marketing">Marketing</option>
+                                        <option value="cybersecurity">Cybersecurity</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-2">Price ($)</label>
+                                    <input type="number" step="0.01" x-model="program.price" class="w-full border-slate-300 rounded-lg shadow-sm focus:border-purple-500 focus:ring-purple-500">
+                                </div>
                             </div>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -402,10 +285,10 @@
                             </div>
 
                             <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
-                                <button class="px-4 py-2 bg-white border border-slate-300 text-slate-700 rounded-lg font-medium hover:bg-slate-50">Save Draft</button>
+                                <button @click="resetProgram()" class="px-4 py-2 bg-white border border-slate-300 text-slate-700 rounded-lg font-medium hover:bg-slate-50">Clear / Cancel</button>
                                 <button @click="createProgramAction()" class="px-6 py-2 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 flex items-center gap-2 shadow-lg shadow-purple-500/20 active:scale-95 transition-all">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-                                    Create Program
+                                    <span x-text="program.id ? 'Update Program' : 'Create Program'"></span>
                                 </button>
                             </div>
                         </div>
@@ -419,20 +302,22 @@
                                 <thead>
                                     <tr class="border-b border-slate-100 text-slate-500 bg-slate-50/50">
                                         <th class="py-2 pl-2">Title</th>
-                                        <th class="py-2">Type</th>
-                                        <th class="py-2">Facilitator</th>
-                                        <th class="py-2">Capacity</th>
-                                        <th class="py-2 text-right pr-2">Points</th>
+                                        <th class="py-2">Category</th>
+                                        <th class="py-2">Start Date</th>
+                                        <th class="py-2 text-right pr-2">Price</th>
+                                        <th class="py-2 text-right pr-2">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <template x-for="p in programsList" :key="p.id">
                                         <tr class="border-b border-slate-50 last:border-0 hover:bg-slate-50 transition-colors">
                                             <td class="py-3 pl-2 font-medium text-slate-900" x-text="p.title"></td>
-                                            <td class="py-3"><span class="px-2 py-1 rounded bg-purple-100 text-purple-700 text-xs font-bold" x-text="p.type"></span></td>
-                                            <td class="py-3 text-slate-600" x-text="p.facilitator"></td>
-                                            <td class="py-3 text-slate-600" x-text="p.capacity"></td>
-                                            <td class="py-3 pr-2 text-right text-slate-600 font-mono" x-text="p.points"></td>
+                                            <td class="py-3"><span class="px-2 py-1 rounded bg-purple-100 text-purple-700 text-xs font-bold uppercase" x-text="p.category_tag"></span></td>
+                                            <td class="py-3 text-slate-600" x-text="new Date(p.start_date).toLocaleDateString()"></td>
+                                            <td class="py-3 pr-2 text-right text-slate-600 font-mono" x-text="'$' + p.price"></td>
+                                            <td class="py-3 pr-2 text-right">
+                                                <button @click="editProgram(p)" class="text-indigo-600 hover:text-indigo-900 text-xs font-bold px-2 py-1 rounded border border-indigo-200">Edit</button>
+                                            </td>
                                         </tr>
                                     </template>
                                 </tbody>
@@ -441,12 +326,24 @@
                     </div>
                 </div>
 
-                <!-- EDITOR for GENERAL CONTENT -->
+                <!-- EDITOR for GENERAL CONTENT (AI INTEGRATED) -->
                 <div x-show="mode === 'general'" x-cloak x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
-                    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 relative">
+
+                         <!-- Loading Overlay -->
+                         <div x-show="loading" class="absolute inset-0 bg-white/80 z-20 flex items-center justify-center rounded-2xl backdrop-blur-sm">
+                            <div class="flex flex-col items-center">
+                               <svg class="animate-spin h-10 w-10 text-blue-600 mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                   <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                               </svg>
+                               <span class="text-blue-900 font-semibold animate-pulse">Researching & Writing...</span>
+                           </div>
+                       </div>
+
                         <div class="mb-6 border-b border-slate-100 pb-4">
-                            <h3 class="font-bold text-lg text-slate-800">General Content Editor</h3>
-                            <p class="text-sm text-slate-500">Standard rich text editor for general purpose publishing.</p>
+                            <h3 class="font-bold text-lg text-slate-800">Insight Editor</h3>
+                            <p class="text-sm text-slate-500">Create new strategic insights manually or via AI generation.</p>
                         </div>
 
                         <div class="space-y-5">
@@ -455,16 +352,31 @@
                                 <input type="text" x-model="general.title" class="w-full border-slate-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 font-semibold">
                             </div>
 
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-2">Category</label>
+                                    <select x-model="general.category" class="w-full border-slate-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                        <option value="market_data">Market Data</option>
+                                        <option value="case_studies">Case Studies</option>
+                                        <option value="latest">Latest Trends</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-2">Read Time</label>
+                                    <input type="text" x-model="general.read_time" placeholder="e.g. 5 min read" class="w-full border-slate-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                </div>
+                            </div>
+
                             <div>
                                 <label class="block text-sm font-medium text-slate-700 mb-2">Content Body</label>
                                 <textarea x-model="general.body" rows="12" class="w-full p-4 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-mono text-sm" placeholder="Write your content here..."></textarea>
                             </div>
 
                             <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
-                                <button class="px-4 py-2 bg-white border border-slate-300 text-slate-700 rounded-lg font-medium hover:bg-slate-50">Discard</button>
+                                <button @click="resetGeneral()" class="px-4 py-2 bg-white border border-slate-300 text-slate-700 rounded-lg font-medium hover:bg-slate-50">Clear / Cancel</button>
                                 <button @click="publishGeneralAction()" class="px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 flex items-center gap-2 shadow-lg shadow-blue-500/20 active:scale-95 transition-all">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
-                                    Publish
+                                    <span x-text="general.id ? 'Update Content' : 'Publish'"></span>
                                 </button>
                             </div>
                         </div>
@@ -492,10 +404,10 @@
                                                 <span :class="g.visibility === 'public' ? 'bg-green-400' : 'bg-amber-400'" class="w-2 h-2 rounded-full"></span>
                                                 <span x-text="g.visibility"></span>
                                             </td>
-                                            <td class="py-3 pr-2 text-right">
-                                                <button class="text-slate-400 hover:text-indigo-600"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg></button>
-                                            </td>
-                                        </tr>
+                                        <td class="py-3 pr-2 text-right">
+                                            <button @click="editGeneral(g)" class="text-indigo-600 hover:text-indigo-900 text-xs font-bold px-2 py-1 rounded border border-indigo-200">Edit</button>
+                                        </td>
+                                    </tr>
                                     </template>
                                 </tbody>
                             </table>
@@ -627,18 +539,11 @@
                     schedule: ''
                 },
                 content: {
-                    type: 'Article',
-                    schedule: '',
-                    sourceType: 'link', // 'link' or 'file'
-                    sourceValue: '',
-                    title: '',
-                    summary: '',
-                    body: '',
-                    expectedViews: 0,
-                    previewMode: true, // Default to preview mode (readable)
-                    editMode: false
+                   sourceType: 'link', // 'link' or 'file'
+                   sourceValue: '',
                 },
                 program: {
+                    id: null,
                     type: 'Course',
                     title: '',
                     facilitator: '',
@@ -646,25 +551,22 @@
                     deadline: '',
                     capacity: '',
                     points: 50,
-                    description: ''
+                    description: '',
+                    price: '', // Added for binding
+                    category_tag: '' // Added for binding
                 },
                 general: {
+                    id: null,
                     category: 'Notice',
                     visibility: 'public',
                     tags: '',
                     title: '',
-                    body: ''
+                    body: '',
+                    read_time: '', // Added for binding
+                    previewMode: true
                 },
-                programsList: [
-                    { id: 101, title: 'Intro to Python', type: 'Course', capacity: 200, facilitator: 'Dr. Jane Smith', points: 50 },
-                    { id: 102, title: 'Career Masterclass', type: 'Webinar', capacity: 500, facilitator: 'Alex Johnson', points: 20 },
-                    { id: 103, title: 'Mentorship 2024', type: 'Mentorship', capacity: 50, facilitator: 'Sarah Connor', points: 100 }
-                ],
-                generalList: [
-                    { id: 201, title: 'Q1 Holidays', category: 'Notice', visibility: 'public' },
-                    { id: 202, title: 'Code of Conduct', category: 'Policy', visibility: 'internal' },
-                    { id: 203, title: 'New Resources', category: 'Resource', visibility: 'public' }
-                ],
+                programsList: @json($programs),
+                generalList: @json($insights),
                 selectedLog: null,
                 logs: [
                     {
@@ -721,8 +623,7 @@
                     }
                 },
 
-                async generateContent() {
-                    // For file upload mock, if value is empty, set default
+                async generateContentAI() {
                     if(this.content.sourceType === 'file' && !this.content.sourceValue) {
                         this.content.sourceValue = 'Future_of_AI_Report_2024.pdf';
                     }
@@ -741,17 +642,48 @@
                             })
                         });
                         const data = await response.json();
-                        this.content.title = data.title;
-                        this.content.summary = data.summary;
-                        this.content.body = data.content;
-                        this.content.expectedViews = data.expected_views;
-                        this.content.previewMode = true;
+                        // Populate General fields
+                        this.general.title = data.title;
+                        this.general.body = data.content; // Use content as body HTML
+                        this.general.category = 'latest'; // Default
+                        this.general.read_time = '5 min read'; // Default estimate
+
+                        alert('AI has successfully drafted the insight!');
                     } catch (error) {
                         console.error('Error:', error);
                         alert('Failed to generate AI content');
                     } finally {
                         this.loading = false;
                     }
+                },
+
+                async generateProgramAI() {
+                     if(!this.program.title) {
+                         alert('Please enter a Program Title first');
+                         return;
+                     }
+
+                     this.loading = true;
+                     try {
+                        const response = await fetch('{{ route("admin.generate.program") }}', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            body: JSON.stringify({
+                                title: this.program.title,
+                                category_tag: this.program.category_tag
+                            })
+                        });
+                        const data = await response.json();
+                        this.program.description = data.description;
+                        alert('Program description generated!');
+                     } catch (e) {
+                         alert('AI Generation failed');
+                     } finally {
+                         this.loading = false;
+                     }
                 },
 
                 sendEmailAction() {
@@ -775,63 +707,148 @@
                     this.email.schedule = '';
                 },
 
-                publishContentAction() {
-                    if(!this.content.title || !this.content.body) {
-                        alert('Please generate content first.');
-                        return;
-                    }
 
-                    const actionText = this.content.schedule
-                        ? `Scheduled ${this.content.type}: "${this.content.title}"`
-                        : `Published ${this.content.type}: "${this.content.title}"`;
 
-                    alert(this.content.schedule
-                        ? `Content scheduled successfully for ${new Date(this.content.schedule).toLocaleString()}`
-                        : 'Content published successfully!');
 
-                    this.addLog('content', actionText);
-
-                    this.content.title = '';
-                    this.content.body = '';
-                    this.content.summary = '';
-                    this.content.sourceValue = '';
-                    this.content.schedule = '';
-                    this.content.expectedViews = 0;
+                editProgram(p) {
+                    this.program = {
+                        id: p.id,
+                        type: 'Course', // Default or could limit
+                        title: p.title,
+                        facilitator: '', // Not in DB yet
+                        startDate: p.start_date,
+                        deadline: '',   // Not in DB yet
+                        capacity: '',   // Not in DB yet
+                        points: 50,
+                        description: p.description,
+                        price: p.price,
+                        category_tag: p.category_tag
+                    };
+                    // Scroll to top
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                 },
 
-                createProgramAction() {
+                editGeneral(g) {
+                    this.general = {
+                        id: g.id,
+                        category: g.category,
+                        visibility: g.visibility || 'public',
+                        tags: '',
+                        title: g.title,
+                        body: g.body || '',
+                        read_time: g.read_time,
+                        previewMode: true
+                    };
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                },
+
+                async createProgramAction() {
                     if(!this.program.title || !this.program.description) {
                          alert('Please fill in the program details.');
                          return;
                     }
 
-                    const actionText = `Created Program: "${this.program.title}"`;
-                    alert('Program created successfully!');
-                    this.addLog('program', actionText);
+                    if (this.program.id) {
+                        // UPDATE Logic
+                        try {
+                            const response = await fetch(`/admin/programs/${this.program.id}`, {
+                                method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                                },
+                                body: JSON.stringify({
+                                    title: this.program.title,
+                                    description: this.program.description,
+                                    price: this.program.price,
+                                    start_date: this.program.startDate,
+                                    category_tag: this.program.category_tag
+                                })
+                            });
+                            if (response.ok) {
+                                alert('Program updated successfully!');
+                                location.reload();
+                                return;
+                            }
+                        } catch (e) { console.error(e); }
+                    } else {
+                        // CREATE Logic
+                        try {
+                            const response = await fetch('{{ route("admin.programs.store") }}', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                                },
+                                body: JSON.stringify({
+                                    title: this.program.title,
+                                    description: this.program.description,
+                                    price: this.program.price,
+                                    start_date: this.program.startDate,
+                                    category_tag: this.program.category_tag
+                                })
+                            });
+                             if (response.ok) {
+                                alert('Program created successfully!');
+                                location.reload();
+                                return;
+                            }
+                        } catch (e) { console.error(e); }
+                    }
 
-                    // Reset
-                    this.program.title = '';
-                    this.program.description = '';
-                    this.program.startDate = '';
-                    this.program.deadline = '';
-                    this.program.facilitator = '';
-                    this.program.capacity = '';
+                    alert('Action failed or incomplete form.');
                 },
 
-                publishGeneralAction() {
-                    if(!this.general.title || !this.general.body) {
+                async publishGeneralAction() {
+                     if(!this.general.title) {
                         alert('Please fill in the content details.');
                         return;
                     }
 
-                    const actionText = `Posted: "${this.general.title}"`;
-                    alert('Content posted successfully!');
-                    this.addLog('general', actionText);
+                    const payload = {
+                        title: this.general.title,
+                        category: this.general.category,
+                        body: this.general.body,
+                        read_time: this.general.read_time
+                    };
 
-                    // Reset
-                    this.general.title = '';
-                    this.general.body = '';
-                    this.general.tags = '';
+                    if (this.general.id) {
+                        // UPDATE
+                        try {
+                            const response = await fetch(`/admin/insights/${this.general.id}`, {
+                                method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                                },
+                                body: JSON.stringify(payload)
+                            });
+                            if (response.ok) {
+                                alert('Insight updated successfully!');
+                                location.reload();
+                                return;
+                            }
+                        } catch (e) { alert('Error updating insight.'); return; }
+                    } else {
+                        // CREATE
+                        try {
+                            const response = await fetch('{{ route("admin.insights.store") }}', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                                },
+                                body: JSON.stringify(payload)
+                            });
+                            if (response.ok) {
+                                alert('Insight created successfully!');
+                                location.reload();
+                                return;
+                            }
+                        } catch (e) { alert('Error creating insight.'); return; }
+                    }
+
+                    alert('Action failed.');
                 },
 
                 addLog(type, action) {

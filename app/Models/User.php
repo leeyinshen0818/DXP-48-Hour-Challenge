@@ -24,6 +24,7 @@ class User extends Authenticatable
         'emotional_state',
         'career_interest',
         'lead_score',
+        'is_guest',
     ];
 
     /**

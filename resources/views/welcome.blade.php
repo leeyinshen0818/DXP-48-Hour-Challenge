@@ -75,7 +75,7 @@
                 <!-- Social Proof User Base -->
                 <div class="flex items-center space-x-4 pt-2">
                     <div class="flex -space-x-3">
-                        <img class="w-12 h-12 rounded-full border-4 border-white shadow-sm" src="https://ui-avatars.com/api/?name=Alex&background=6366f1&color=fff&font-size=0.5" alt="Alex">
+                        <img class="w-12 h-12 rounded-full border-4 border-white shadow-sm object-cover" src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&q=80" alt="Alex">
                         <img class="w-12 h-12 rounded-full border-4 border-white shadow-sm" src="https://ui-avatars.com/api/?name=Sarah&background=random&color=fff&font-size=0.5" alt="User">
                         <img class="w-12 h-12 rounded-full border-4 border-white shadow-sm" src="https://ui-avatars.com/api/?name=John&background=random&color=fff&font-size=0.5" alt="User">
                         <div class="w-12 h-12 rounded-full border-4 border-white bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-500 shadow-sm">+2k</div>

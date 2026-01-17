@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Programme;
+use App\Models\StrategicInsight;
 
 class DashboardController extends Controller
 {
@@ -26,18 +27,38 @@ class DashboardController extends Controller
 
         // 2. Fetch Relevant Programmes (The "Curated List")
         // If user has a preference, filter by it. Else show all.
-        $programmes = Programme::query();
+        $programmes = Programme::all();
 
-        if ($user->career_interest) {
-            $programmes->where('category_tag', $user->career_interest);
-        }
+        // Map for the definitions list in Alpine
+        $dbLibraryPrograms = $programmes->map(function($prog) {
+            return [
+                'title' => $prog->title,
+                'description' => $prog->description,
+                'duration' => 'Flexible', // Placeholder as DB doesn't have it
+                'level' => 'All Levels',  // Placeholder
+                'icon' => 'M12 14l9-5-9-5-9 5 9 5z', // Generic layer icon
+                // Pass extra info for the modal
+                'price' => $prog->price,
+                'startDate' => $prog->start_date,
+            ];
+        });
 
-        $programmes = $programmes->get();
+        // 3. Fetch Insights from DB and map to frontend key format
+        $dbInsights = StrategicInsight::all()->map(function($insight) {
+            return [
+                'title' => $insight->title,
+                'type' => $insight->type,
+                'category' => $insight->category,
+                'readTime' => $insight->read_time,
+                'iconClass' => $insight->icon_class,
+                'downloadUrl' => $insight->download_url,
+            ];
+        });
 
-        // 3. AI Insights Simulation (Hardcoded for prototype based on interest)
-        $insights = $this->getInsights($user->career_interest);
+        // 3. AI Insights Simulation (Hardcoded for prototype based on interest) -> Kept as $aiInsights
+        $aiInsights = $this->getInsights($user->career_interest);
 
-        return view('home', compact('user', 'heroHeadline', 'programmes', 'insights'));
+        return view('home', compact('user', 'heroHeadline', 'programmes', 'aiInsights', 'dbInsights', 'dbLibraryPrograms'));
     }
 
     private function getInsights($interest)

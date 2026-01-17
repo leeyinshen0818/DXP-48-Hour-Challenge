@@ -95,7 +95,90 @@ class AdminController extends Controller
 
     public function actions()
     {
-        return view('admin.actions');
+        $programs = \App\Models\Programme::all();
+        $insights = \App\Models\StrategicInsight::all();
+        return view('admin.actions', compact('programs', 'insights'));
+    }
+
+    public function updateProgram(Request $request, $id)
+    {
+        $program = \App\Models\Programme::findOrFail($id);
+
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'category_tag' => 'required|string',
+            'start_date' => 'required|date',
+            'price' => 'required|numeric',
+            'description' => 'required|string',
+        ]);
+
+        $program->update($validated);
+
+        return response()->json(['message' => 'Program updated successfully', 'program' => $program]);
+    }
+
+    public function updateInsight(Request $request, $id)
+    {
+        $insight = \App\Models\StrategicInsight::findOrFail($id);
+
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'category' => 'required|string',
+            'body' => 'nullable|string',
+            // Allow other fields to be updated if passed, otherwise keep existing
+            'read_time' => 'nullable|string',
+        ]);
+
+        $insight->update($validated);
+
+        return response()->json(['message' => 'Insight updated successfully', 'insight' => $insight]);
+    }
+
+    public function storeProgram(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'category_tag' => 'required|string',
+            'start_date' => 'required|date',
+            'price' => 'required|numeric',
+            'description' => 'required|string',
+        ]);
+
+        // Defaults for required fields not in form
+        $validated['slug'] = \Illuminate\Support\Str::slug($validated['title']) . '-' . rand(1000, 9999);
+
+        $program = \App\Models\Programme::create($validated);
+
+        return response()->json(['message' => 'Program created successfully', 'program' => $program]);
+    }
+
+    public function storeInsight(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'category' => 'required|string',
+            'body' => 'nullable|string',
+            'read_time' => 'nullable|string',
+        ]);
+
+        // Defaults
+        $validated['type'] = 'Article'; // Default type
+        $validated['visibility'] = 'public';
+
+        $insight = \App\Models\StrategicInsight::create($validated);
+
+        return response()->json(['message' => 'Insight created successfully', 'insight' => $insight]);
+    }
+
+    public function generateAiProgram(Request $request)
+    {
+        $title = $request->input('title');
+        $category = $request->input('category_tag', 'General');
+
+        // Mock AI Generation
+        $description = "Join our exclusive {$category} program designed to accelerate your career. This intensive course covers foundational concepts and advanced techniques, ensuring you are industry-ready. \n\nKey outcomes include: \n- Mastery of {$title} principles.\n- Hands-on projects with real-world datasets.\n- Mentorship from industry leaders.\n\nPerfect for professionals looking to upskill.";
+
+        return response()->json(['description' => $description]);
     }
 
     public function generateAiEmail(Request $request)

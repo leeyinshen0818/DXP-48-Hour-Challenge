@@ -1,7 +1,13 @@
 @extends('layouts.program')
 
 @section('content')
-    <div class="bg-indigo-900 text-white py-20">
+    <div class="bg-indigo-900 text-white py-20 relative">
+        <div class="absolute top-6 left-6">
+            <a href="{{ route('home') }}" class="inline-flex items-center text-indigo-300 hover:text-white transition-colors group">
+                <svg class="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                <span class="font-bold text-sm">Back to Dashboard</span>
+            </a>
+        </div>
         <div class="max-w-7xl mx-auto px-6">
             <span class="inline-block px-3 py-1 bg-indigo-500/30 text-indigo-200 rounded-full text-xs font-bold uppercase tracking-wide mb-4">Software Engineering Immersive</span>
             <h1 class="text-4xl md:text-5xl font-extrabold mb-6">Become a Full-Stack Developer</h1>
