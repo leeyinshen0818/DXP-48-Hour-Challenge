@@ -36,6 +36,38 @@ class ProgrammeSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            // AI Track
+            [
+                'title' => 'Applied Generative AI',
+                'slug' => 'gen-ai-mastery',
+                'description' => 'Build your own LLMs and Agents. From HuggingFace to deployment.',
+                'category_tag' => 'ai',
+                'start_date' => Carbon::now()->addDays(20),
+                'price' => 4500.00,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'title' => 'Machine Learning Engineer Core',
+                'slug' => 'ml-eng-core',
+                'description' => 'Mathematics, PyTorch, and deploying models to production.',
+                'category_tag' => 'ai',
+                'start_date' => Carbon::now()->addDays(40),
+                'price' => 3800.00,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            // Software Track
+            [
+                'title' => 'Full Stack Cloud Native',
+                'slug' => 'full-stack-cloud',
+                'description' => 'React, Node.js, and AWS. Build scalable web applications.',
+                'category_tag' => 'software',
+                'start_date' => Carbon::now()->addDays(5),
+                'price' => 2999.00,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
             // Management Track
             [
                 'title' => 'Executive Leadership Program',

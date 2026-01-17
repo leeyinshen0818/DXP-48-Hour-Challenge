@@ -12,9 +12,21 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
+        // Fallback for no-auth mode
+        if (!$user) {
+            $user = new \App\Models\User([
+                'name' => 'Guest User',
+                'email' => 'guest@example.com',
+                'career_interest' => 'software', // Default preference
+                'emotional_state' => 'professional'
+            ]);
+        }
+
         // 1. Morph the Headline based on goals
         $headlineMap = [
             'data' => "Your Roadmap to becoming a Data Leader",
+            'ai' => "Building the Future with AI",
+            'software' => "Architecting Scalable Systems",
             'management' => "Your Path to the C-Suite",
             'marketing' => "Mastering the Digital Landscape",
             'default' => "Welcome to your Future"
@@ -46,6 +58,16 @@ class DashboardController extends Controller
                 'salary' => '$120,000 avg entry',
                 'growth' => '+28% demand in 2026',
                 'tip' => 'Python is overtaking R in 90% of enterprises.'
+            ],
+            'ai' => [
+                'salary' => '$160,000 started',
+                'growth' => 'Explosive (+50%)',
+                'tip' => 'Learn Transformer architectures now.'
+            ],
+            'software' => [
+                'salary' => '$115,000 base',
+                'growth' => 'Steady High Demand',
+                'tip' => 'System Design is the new interview roadblock.'
             ],
             'management' => [
                 'salary' => '$145,000 base',

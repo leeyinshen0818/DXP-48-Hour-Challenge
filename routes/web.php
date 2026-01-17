@@ -14,6 +14,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AdminController;
+
+Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
+Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
+Route::get('/admin/actions', [AdminController::class, 'actions'])->name('admin.actions');
+Route::post('/admin/actions/generate-email', [AdminController::class, 'generateAiEmail'])->name('admin.generate.email');
+Route::post('/admin/actions/generate-content', [AdminController::class, 'generateAiContent'])->name('admin.generate.content');
+Route::get('/admin/analytics', [AdminController::class, 'analytics'])->name('admin.analytics');
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -22,14 +30,12 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/home', [DashboardController::class, 'index'])->name('home');
+Route::get('/home', [DashboardController::class, 'index'])->name('home');
 
-    // Quick logout for prototype
-    Route::get('/logout', function () {
-        Auth::logout();
-        request()->session()->invalidate();
-        request()->session()->regenerateToken();
-        return redirect('/');
-    })->name('logout');
-});
+// Quick logout for prototype
+Route::get('/logout', function () {
+    Auth::logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+    return redirect('/');
+})->name('logout');

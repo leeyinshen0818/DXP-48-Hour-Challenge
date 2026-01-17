@@ -12,85 +12,125 @@ use Illuminate\Support\Facades\Auth;
 class AlexChatInterface extends Component
 {
     public $step = 0;
-    public $vibe = '';
-    public $goal = '';
+
+    // User Choices
+    public $userStatus = ''; // 'student' or 'professional'
+    public $careerInterest = ''; // 'data', 'ai', 'software'
     public $email = '';
-    public $messages = [];
+
+    // Assets
+    public $alexImage = 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&auto=format&fit=facearea&facepad=2.5&w=256&h=256&q=80';
+
+    // For UI State
+    public $showEmailInput = false;
 
     public function mount()
     {
-        // Check if user has already started a session
-        if (session()->has('guest_vibe')) {
-            $this->vibe = session('guest_vibe');
-            $this->step = 1;
-        }
-        if (session()->has('guest_goal')) {
-            $this->goal = session('guest_goal');
-            $this->step = 2;
-        }
+        // Reset session for demo purposes on fresh load if needed,
+        // but for now we follow standard Livewire lifecycle
     }
 
-    public function setVibe($vibe)
+    // Node A -> B
+    public function startChat()
     {
-        $this->vibe = $vibe;
         $this->step = 1;
-        session(['guest_vibe' => $vibe]);
-
-        // Log interaction
-        Interaction::create([
-            'guest_session_id' => session()->getId(),
-            'step_name' => 'vibe_check',
-            'choice_selected' => $vibe
-        ]);
+        $this->logInteraction('intro', 'started');
     }
 
-    public function setGoal($goal)
+    // Node B -> C
+    public function setStatus($status)
     {
-        $this->goal = $goal;
+        $this->userStatus = $status;
         $this->step = 2;
-        session(['guest_goal' => $goal]);
-
-        Interaction::create([
-            'guest_session_id' => session()->getId(),
-            'step_name' => 'goal_setting',
-            'choice_selected' => $goal
-        ]);
+        $this->logInteraction('status_check', $status);
     }
 
+    // Node C -> D
+    public function setInterest($interest)
+    {
+        $this->careerInterest = $interest;
+        $this->step = 3;
+        $this->logInteraction('career_interest', $interest);
+    }
+
+    // Node D -> E
+    public function acceptOffer()
+    {
+        $this->step = 4;
+        $this->showEmailInput = true;
+        $this->logInteraction('offer_accepted', 'yes');
+    }
+
+    public function declineOffer()
+    {
+        // Maybe show a "No worries" message or restart?
+        // For now, let's just reset or show a friendly exit
+        // but user script says "Close Chat"...
+        // we'll keep it simple for this prototype.
+        $this->logInteraction('offer_declined', 'no');
+    }
+
+    // Node E -> F
     public function submitLead()
     {
         $this->validate([
-            'email' => 'required|email'
+            'email' => 'required'
         ]);
 
-        // Create or Update User (Lead)
+        // Calculate Score based on Status + Interest
+        $score = $this->calculateScore($this->userStatus, $this->careerInterest);
+
+        // Map old "vibe" field to status for backward compatibility or DB schema
+        // We'll treat 'emotional_state' as the status ('student' or 'professional')
+        // to fit existing DB columns for now.
+
         $user = User::firstOrCreate(
             ['email' => $this->email],
             [
-                'name' => 'Guest Future Leader',
-                'password' => Hash::make(Str::random(16)), // Temporary password
-                'emotional_state' => $this->vibe,
-                'career_interest' => $this->goal,
-                'lead_score' => $this->calculateScore($this->vibe)
+                'name' => 'Future ' . ucfirst($this->careerInterest) . ' Leader',
+                'password' => Hash::make(Str::random(16)),
+                'emotional_state' => $this->userStatus, // Reusing this column
+                'career_interest' => $this->careerInterest,
+                'lead_score' => $score
             ]
         );
 
-        // Auto-login the user to personalize the next page
         Auth::login($user);
 
-        return redirect()->to('/home');
+        // Node F: The Close & Redirect
+        $this->step = 5;
+
+        // Redirect after a short delay (handled in frontend or here)
+        // We'll use a browser event or just standard redirect
+        // return redirect()->to('/home'); // Commented out to allow Node F message to display
     }
 
-    private function calculateScore($vibe)
+    private function calculateScore($status, $interest)
     {
-        // High urgency = stuck/evaluating. Low urgency = curious.
-        return match($vibe) {
-            'stuck' => 90,
-            'evaluating' => 70,
-            'ambitious' => 60,
-            'curious' => 30,
-            default => 50
-        };
+        $score = 50;
+
+        // Professionals are usually higher value leads (more likely to pay)
+        if ($status === 'professional') {
+            $score += 30;
+        } else {
+            $score += 10;
+        }
+
+        // Specific high-demand interests might score higher
+        if ($interest === 'data' || $interest === 'ai') {
+            $score += 10;
+        }
+
+        return $score;
+    }
+
+    private function logInteraction($stepName, $choice)
+    {
+        Interaction::create([
+            'guest_session_id' => session()->getId(),
+            'step_name' => $stepName,
+            'choice_selected' => $choice
+        ]);
     }
 
     public function render()
