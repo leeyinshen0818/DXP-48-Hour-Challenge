@@ -24,11 +24,21 @@ Route::post('/admin/actions/generate-email', [AdminController::class, 'generateA
 Route::post('/admin/actions/generate-content', [AdminController::class, 'generateAiContent'])->name('admin.generate.content');
 Route::get('/admin/analytics', [AdminController::class, 'analytics'])->name('admin.analytics');
 
+// Public Program Routes
+Route::get('/programs', function () {
+    return view('programs.index');
+})->name('programs.index');
+
+Route::get('/programs/software-engineering', function () {
+    return view('programs.show');
+})->name('programs.show');
+
 Route::get('/', function () {
     if (Auth::check()) {
         return redirect()->route('home');
     }
     return view('welcome');
+
 })->name('welcome');
 
 Route::get('/home', [DashboardController::class, 'index'])->name('home');
